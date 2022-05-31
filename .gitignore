@@ -5,3 +5,4 @@
 .vscode/targets.log
 minish.o
 minish
+linea2argv.o
