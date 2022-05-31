@@ -32,8 +32,7 @@ sigint_handler(int signum) {                    // the handler for SIGINT
     fprintf(stderr, "Interrupt! (signal number %d)\n", signum);
 }
 
-int
-main(__attribute__((unused)) int argc, char* argv[]) {
+int main(__attribute__((unused)) int argc, char* argv[]) {
     char line[MAXLINE];
     char *progname = argv[0];
     struct sigaction oldact, newact;
@@ -58,11 +57,10 @@ main(__attribute__((unused)) int argc, char* argv[]) {
 	char **arr_arg=malloc(sizeof(char*)*MAXWORDS);
 	int cant_palabras;
         if ((cant_palabras = linea2argv(line,MAXWORDS,arr_arg))>0) {
-	    if (strcmp(arr_arg[0],"cd")==0){
+	    if (strcmp(arr_arg[0],"cd") == 0){
 		chdir(arr_arg[1]);
 
-	    }
-            else{
+	    } else{
             pid_t pid;                          // process ID: an unsigned integer type
             int wait_status;                    // wait status will be filled by waitpid syscall
 
