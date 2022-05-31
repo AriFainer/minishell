@@ -7,56 +7,16 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <signal.h>
-#include <stdbool.h>
-#include <ctype.h>
+
+#include "linea2argv.c"
 
 
-#define BLOCK "\"\'"
 #define MAXLINE 1024
 #define MAXWORDS 256
 #define YELLOW "\033[1;33m"
 #define RESET "\033[0m"
 
 
-int linea2argv (char *linea, int argc, char **argv){
-    int j = 0; //palabra actual
-    int i = 0; //tamaño de word actual
-    char word[MAXLINE]={'\0'};
-    char *lectura = linea;
-    bool entre_comillas = false;
-    int tipo_comilla = 0;
-    char block[]=BLOCK;
-    while (strchr("\n\0",*lectura)==NULL){
-        if (entre_comillas) {
-            if ( block[tipo_comilla] == *lectura) {
-                entre_comillas = 0;
-                lectura++;
-                continue;
-            }
-            word[i]=*lectura;
-            lectura++;
-            i++;
-            continue;
-        }
-        if ( strchr (block, *lectura) != NULL) {
-            entre_comillas = 1;
-            tipo_comilla = (int)(strchr (block, *lectura)-&block[0]);
-            lectura++;
-            continue;
-        }
-        if (isspace(*lectura)) {
-            if (i>0) {word[i]='\0';argv[j++]=strdup(word);}
-            lectura++;
-            i=0;
-            continue;
-        }
-	word[i]=*lectura;
-        lectura++;
-        i++;
-    }
-    if (i>0) argv[j++]=strdup(word);
-    return j;
-}
 
 void
 prompt(char *ps) {
@@ -73,7 +33,7 @@ sigint_handler(int signum) {                    // the handler for SIGINT
 }
 
 int
-main(int argc, char *argv[]) {
+main(__attribute__((unused)) int argc, char* argv[]) {
     char line[MAXLINE];
     char *progname = argv[0];
     struct sigaction oldact, newact;
@@ -97,7 +57,7 @@ main(int argc, char *argv[]) {
         fprintf(stderr, "Will execute command %s", line);
 	char **arr_arg=malloc(sizeof(char*)*MAXWORDS);
 	int cant_palabras;
-        if (cant_palabras = linea2argv(line,MAXWORDS,arr_arg)>0) {
+        if ((cant_palabras = linea2argv(line,MAXWORDS,arr_arg))>0) {
 	    if (strcmp(arr_arg[0],"cd")==0){
 		chdir(arr_arg[1]);
 

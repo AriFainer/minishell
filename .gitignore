@@ -1,1 +1,7 @@
-/ms
+.vscode/c_cpp_properties.json
+.vscode/configurationCache.log
+.vscode/dryrun.log
+.vscode/settings.json
+.vscode/targets.log
+minish.o
+minish
