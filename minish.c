@@ -60,7 +60,6 @@ sigint_handler(int signum) {                    // the handler for SIGINT
 int main(__attribute__((unused)) int argc, char* argv[]) {
     char line[MAXLINE];
     char *progname = argv[0];
-    struct sigaction oldact, newact;
     
     sigaction(SIGINT, NULL, &newact);           // the  previous action for SIGINT is saved in oldact
     newact.sa_handler = sigint_handler;

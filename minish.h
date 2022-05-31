@@ -14,6 +14,8 @@ struct builtin_struct {         // struct con información de los builtins
 
 // Variables que deben definirse en el main como externas
 
+extern struct sigaction oldact, newact;
+
 extern int globalstatret;	// guarda status del ultimo comando
 
 extern struct builtin_struct builtin_arr[];
