@@ -3,6 +3,8 @@
 #include <ctype.h>
 #include <string.h>
 
+#include "minish.h"
+
 
 #define COMILLAS "\"\'"
 #define MAXLINE 1024
