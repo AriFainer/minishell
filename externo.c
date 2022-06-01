@@ -9,10 +9,10 @@
 
 #include "minish.h"
 
-extern int externo(int argc, char **argv){
+extern int externo(__attribute__((unused)) int argc, char **argv){
     pid_t pid;       // process ID: an unsigned integer type
     int wait_status; // wait status will be filled by waitpid syscall
-    int return_value; //status
+    int return_value = 0; //status
 
     fprintf(stderr, "Will fork %s command\n", argv[0]);
 
@@ -49,4 +49,5 @@ extern int externo(int argc, char **argv){
 
         return return_value;
     }
+    return return_value;
 }

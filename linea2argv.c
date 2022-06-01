@@ -48,6 +48,6 @@ int linea2argv (char *linea, int argc, char **argv){
         lectura++;
         i++;
     }
-    if (i>0) argv[j++]=strdup(word);
+    if (i>0) {word[i]='\0';argv[j++]=strdup(word);}
     return j;
 }

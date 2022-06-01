@@ -26,24 +26,27 @@
 
 struct builtin_struct builtin_arr[] = {
         { "cd", builtin_cd, HELP_CD },
-        { "dir",builtin_dir,HELP_DIR},
+        /*{ "dir",builtin_dir,HELP_DIR},
         { "exit", builtin_exit, HELP_EXIT },
         { "help",builtin_help,HELP_HELP},
-        { "history", builtin_history, HELP_HISTORY },
+        { "history", builtin_history, HELP_HISTORY },*/
         { "getenv",builtin_getenv,HELP_GETENV},
-        { "pid", builtin_pid, HELP_PID },
+        /*{ "pid", builtin_pid, HELP_PID },
         { "setenv",builtin_setenv,HELP_SETENV},
         { "status", builtin_status, HELP_STATUS },
-        { "uid", builtin_uid, HELP_UID },
+        { "uid", builtin_uid, HELP_UID },*/
         { NULL, NULL, NULL }
 };
+
+int globalstatret = 0;
+struct sigaction oldact, newact;
 
 void
 prompt(char *ps) {
     // ps is the prompt string
     char direccion[MAXLINE]={0};
     getcwd(direccion,MAXLINE);
-    fprintf(stderr, "(%s)" YELLOW "  %s "  RESET ">", ps, direccion);
+    fprintf(stderr, "(%s)" YELLOW " %s "  RESET ">", ps,direccion);
 }
 
 void
@@ -53,8 +56,8 @@ sigint_handler(int signum) {                    // the handler for SIGINT
 
 int 
 main(__attribute__((unused)) int argc, char* argv[]) {
-    int globalstatret = 0;
-    struct sigaction oldact, newact;
+    
+    
     char line[MAXLINE];
     char *progname = argv[0];
     
@@ -82,5 +85,5 @@ main(__attribute__((unused)) int argc, char* argv[]) {
 
     fputc('\n', stderr);
     fprintf(stderr, "Exiting %s ...\n", progname);
-    exit(EXIT_SUCCESS);
+    exit(globalstatret);
 }
