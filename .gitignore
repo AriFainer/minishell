@@ -6,3 +6,10 @@
 minish.o
 minish
 linea2argv.o
+linea2argv.o
+builtin_getenv.o
+externo.o
+builtin_lookup.o
+temp.o
+builtin_cd.o
+ejecutar.o

@@ -16,6 +16,6 @@ int builtin_cd(__attribute__((unused)) int argc, char **argv)
     {
         return 0;
     }
-    fprintf(stderr, "No existe el directorio %s", argv[1]);
+    fprintf(stderr, "ERROR: No existe el directorio %s\n", argv[1]);
     return -1;
 }
