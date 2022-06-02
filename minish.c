@@ -7,10 +7,11 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include <pwd.h>
 
 #include "minish.h"
 
-#define YELLOW "\033[1;33m"
+#define GREEN "\033[1;32m"
 #define RESET "\033[0m"
 
 #define HELP_CD      "cd [..|dir] - cambia de directorio corriente"
@@ -46,7 +47,10 @@ prompt(char *ps) {
     // ps is the prompt string
     char direccion[MAXLINE]={0};
     getcwd(direccion,MAXLINE);
-    fprintf(stderr, "(%s)" YELLOW " %s "  RESET ">", ps,direccion);
+
+    char *name = getpwuid(getuid())->pw_name;
+    
+    fprintf(stderr, "(%s)" GREEN " %s:%s "  RESET ">", ps, name , direccion);
 }
 
 void
