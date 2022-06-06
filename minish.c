@@ -42,15 +42,15 @@ struct builtin_struct builtin_arr[] = {
 int globalstatret = 0;
 struct sigaction oldact, newact;
 
+char directory[MAXCWD] = {0};
+char prevdirectory[MAXCWD] = {0};
+
 void
 prompt(char *ps) {
     // ps is the prompt string
-    char direccion[MAXLINE]={0};
-    getcwd(direccion,MAXLINE);
-
+    //getcwd(directory,MAXLINE);
     char *name = getpwuid(getuid())->pw_name;
-    
-    fprintf(stderr, "(%s)" GREEN " %s:%s "  RESET ">", ps, name , direccion);
+    fprintf(stderr, "(%s)" GREEN " %s:%s "  RESET ">", ps, name , directory);
 }
 
 void
@@ -59,8 +59,7 @@ sigint_handler(int signum) {                    // the handler for SIGINT
 }
 
 int 
-main(__attribute__((unused)) int argc, char* argv[]) {
-    
+main(__attribute__((unused)) int argc, char* argv[]) { // al profe dijo que no le gustaba el unused, que usaramos el argc para algo 
     
     char line[MAXLINE];
     char *progname = argv[0];
@@ -68,6 +67,8 @@ main(__attribute__((unused)) int argc, char* argv[]) {
     sigaction(SIGINT, NULL, &newact);           // the  previous action for SIGINT is saved in oldact
     newact.sa_handler = sigint_handler;
     sigaction(SIGINT, &newact, NULL);           // set SIGINT handler for loop
+    getcwd(directory, MAXCWD);
+    strcpy(prevdirectory, directory);
 
     for (;;) {
         prompt(progname);
@@ -80,7 +81,7 @@ main(__attribute__((unused)) int argc, char* argv[]) {
         }
 
         fprintf(stderr, "Will execute command %s", line);
-        char **arr_arg=malloc(sizeof(char*)*MAXWORDS);
+        char **arr_arg = malloc(sizeof(char*)*MAXWORDS);
         int cant_palabras;
         if ((cant_palabras = linea2argv(line,MAXWORDS,arr_arg))>0) {
             globalstatret = ejecutar(cant_palabras,arr_arg);
