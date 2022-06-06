@@ -22,6 +22,8 @@ extern struct sigaction oldact, newact;
 
 extern int globalstatret;	// guarda status del ultimo comando
 
+extern char *progname; // Guardo en una variable global el nombre del programa 
+
 extern struct builtin_struct builtin_arr[];
 
 /*

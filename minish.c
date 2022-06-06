@@ -41,7 +41,8 @@ struct builtin_struct builtin_arr[] = {
         { NULL, NULL, NULL }
 };
 
-int globalstatret = 0;
+int globalstatret = 0; 
+char *progname;
 struct sigaction oldact, newact;
 
 char directory[MAXCWD];
@@ -64,7 +65,7 @@ int
 main(__attribute__((unused)) int argc, char* argv[]) { // al profe dijo que no le gustaba el unused, que usaramos el argc para algo 
     
     char line[MAXLINE];
-    char *progname = argv[0];
+    progname = argv[0];
     
     sigaction(SIGINT, NULL, &newact);           // the  previous action for SIGINT is saved in oldact
     newact.sa_handler = sigint_handler;
