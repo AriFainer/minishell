@@ -12,7 +12,7 @@ int builtin_gid(int argc, char ** argv)
     struct passwd *password = getpwuid(g_id);
     if(password != NULL){
         char *name = password->pw_name;
-        fprintf(stdout,"main group: %d \nsecondary groups: %s", g_id, name);
+        fprintf(stdout,"Main group: %d \nSecondary groups: %s", g_id, name);
         return 0;
     }
     return -1;
