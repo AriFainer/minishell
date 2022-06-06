@@ -24,6 +24,8 @@ extern int globalstatret;	// guarda status del ultimo comando
 
 extern struct builtin_struct builtin_arr[];
 
+extern char syntax_array[][];
+
 /*
     builtin_arr es una lista de los builtins, que se recorrerá en forma lineal.
     Podría usarse una estructura que mejorara la velocidad de búsqueda, pero
