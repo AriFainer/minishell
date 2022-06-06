@@ -13,3 +13,6 @@ builtin_lookup.o
 temp.o
 builtin_cd.o
 ejecutar.o
+builtin_gid.o
+builtin_uid.o
+builtin_pid.o

@@ -14,9 +14,9 @@ struct builtin_struct {         // struct con información de los builtins
 
 // Variables que deben definirse en el main como externas
 
-extern char directory;
+extern char directory[];
 
-extern char prevdirectory;
+extern char prevdirectory[];
 
 extern struct sigaction oldact, newact;
 

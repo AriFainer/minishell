@@ -21,6 +21,8 @@ builtin_cd(__attribute__((unused)) int argc, char **argv) {
     }
     if (chdir(argv[1]) == 0)
     {
+        strcpy(prevdirectory, directory);
+        getcwd(directory, MAXCWD);
         return 0;
     }
     fprintf(stderr, "ERROR: No existe el directorio %s\n", argv[1]);
