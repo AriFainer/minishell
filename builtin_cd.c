@@ -25,8 +25,7 @@ builtin_cd(int argc, char **argv) {
         getcwd(directory, MAXCWD);
         return 0;
     }
-    if (chdir(argv[1]) == 0)
-    {
+    if (chdir(argv[1]) == 0) {
         strcpy(prevdirectory, directory);
         getcwd(directory, MAXCWD);
         return 0;

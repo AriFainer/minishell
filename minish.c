@@ -29,14 +29,15 @@
 
 struct builtin_struct builtin_arr[] = {
         { "cd", builtin_cd, HELP_CD },
-        //{ "dir",builtin_dir,HELP_DIR},
+        //{ "dir", builtin_dir, HELP_DIR},
         { "exit", builtin_exit, HELP_EXIT },
         { "help", builtin_help, HELP_HELP },
         /*{ "history", builtin_history, HELP_HISTORY },*/
         { "getenv", builtin_getenv, HELP_GETENV },
         { "pid", builtin_pid, HELP_PID },
-        /*{ "setenv",builtin_setenv,HELP_SETENV},
-        { "status", builtin_status, HELP_STATUS },*/
+        { "setenv", builtin_setenv, HELP_SETENV },
+        { "unsetenv", builtin_status, HELP_STATUS },
+        { "status", builtin_status, HELP_STATUS },
         { "uid", builtin_uid, HELP_UID },
         { "gid", builtin_gid, HELP_GID },
         { NULL, NULL, NULL }
@@ -59,24 +60,21 @@ char syntax_array[][MAXLINE] = {
 };
 
 int globalstatret = 0;
-int globalstatret = 0; 
 char *progname;
 struct sigaction oldact, newact;
-
 char directory[MAXCWD];
 char prevdirectory[MAXCWD];
 
 void
 prompt(char *ps) {
     // ps is the prompt string
-    //getcwd(directory,MAXLINE);
     char *name = getpwuid(getuid())->pw_name;
     fprintf(stderr, "(%s)" GREEN " %s:%s "  RESET ">", ps, name , directory);
 }
 
 void
-sigint_handler(int signum) {                    // the handler for SIGINT
-    fprintf(stderr, "Interrupt! (signal number %d)\n", signum);
+sigint_handler(int signum) {                    
+    fprintf(stderr, "Interrupt! (signal number %d)\n", signum); // the handler for SIGINT
 }
 
 int 
@@ -100,16 +98,16 @@ main(__attribute__((unused)) int argc, char* argv[]) { // al profe dijo que no l
                 continue;   // not EOF, read system call was interrupted, continue loop
             }
         }
-
+        
         fprintf(stderr, "Will execute command %s", argv[0]);
         char **arr_arg = malloc(sizeof(char*)*MAXWORDS);
         int cant_palabras;
-        if ((cant_palabras = linea2argv(line,MAXWORDS,arr_arg))>0) {
-            globalstatret = ejecutar(cant_palabras,arr_arg);
+        if ((cant_palabras = linea2argv(line, MAXWORDS, arr_arg)) > 0) {
+            globalstatret = ejecutar(cant_palabras, arr_arg);
         }
     }
 
     fputc('\n', stderr);
-    fprintf(stderr, "Exiting %s ...\n", progname);
-    exit(globalstatret);
+    char exit_argv[] = {"exit", globalstatret};
+    builtin_exit(2, exit_argv);
 }

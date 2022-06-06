@@ -11,7 +11,6 @@ struct builtin_struct {         // struct con información de los builtins
     char *help_txt;             // el texto de ayuda
 };
 
-
 // Variables que deben definirse en el main como externas
 
 extern char directory[];
