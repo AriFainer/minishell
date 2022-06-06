@@ -6,21 +6,15 @@
 
 #include "minish.h"
 
-int builtin_gid()
+int builtin_gid(int argc, char ** argv)
 {
     gid_t *g_id = getgid();
-    char *name = getpwuid(g_id)->pw_name;
-    fprintf(stdout,"main group: %d \nsecondary groups: %s", g_id, name);
-    return 0;
-
-    /* ARREGLAR ESTO. CONTROLAR EL ERROR
-    if(){
-        fprintf(stdout,"userid: %d \nusername: %s", u_id, name);
-
-            return 0; // Nunca tira error
-    }else{
-        fprintf(stderr, "ERROR: No existe el usuario. ");
-        return -1;
-    }*/
+    struct passwd *password = getpwuid(g_id);
+    if(password != NULL){
+        char *name = password->pw_name;
+        fprintf(stdout,"main group: %d \nsecondary groups: %s", g_id, name);
+        return 0;
+    }
+    return -1;
 
 }

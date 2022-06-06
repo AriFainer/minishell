@@ -3,7 +3,7 @@
 
 #include "minish.h"
 
-int builtin_pid()
+int builtin_pid(int argc, char ** argv)
 {
     pid_t *p_id = getpid();
 
