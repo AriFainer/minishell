@@ -6,8 +6,12 @@
 #include "minish.h"
 
 int 
-builtin_cd(__attribute__((unused)) int argc, char **argv) {
-    if (argv[1] == NULL) {
+builtin_cd(int argc, char **argv) {
+    if (argc > 2) {
+        // correr el built in help de cd , error de sintaxis
+        return -1; 
+    }
+    if (argc == 1) {
         chdir(getenv("HOME"));
         strcpy(prevdirectory, directory);
         getcwd(directory, MAXCWD);

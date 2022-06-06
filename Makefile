@@ -1,7 +1,7 @@
 # La variable CC indica el ejecutable para el compilador C (usualmente son gcc o clang)
 CC=gcc
 # La variable CFLAGS indica las banderas para el compilador C
-CFLAGS=-Wall -Wextra -std=gnu99 -ggdb -c
+CFLAGS=-Wall -Wextra -std=gnu99 -ggdb -c -g 		# el -g es para permitirle al compilador agarrar la inf. del debugger
 # La variable LDLIBS indica las banderas para la parte del "loader", usualmente librerías "-lxxxx"
 # LDLIBS=
 

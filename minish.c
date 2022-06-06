@@ -42,8 +42,8 @@ struct builtin_struct builtin_arr[] = {
 int globalstatret = 0;
 struct sigaction oldact, newact;
 
-char directory[MAXCWD] = {0};
-char prevdirectory[MAXCWD] = {0};
+directory[MAXCWD] = {'\0'};
+prevdirectory[MAXCWD] = {'\0'};
 
 void
 prompt(char *ps) {
