@@ -18,3 +18,6 @@ builtin_uid.o
 builtin_pid.o
 builtin_unsetenv.o
 builtin_setenv.o
+builtin_exit.o
+builtin_status.o
+builtin_help.o

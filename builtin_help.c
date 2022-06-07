@@ -9,14 +9,13 @@ int
 builtin_help(int argc, char **argv) {
     if (argc > 2) {
         fprintf(stderr, "Error: Sintaxis incorrecta del comando \"help\"\n");
-        char help_argv[] = {"help", "help"};
+        char *help_argv[] = {"help", "help"};
         builtin_help(2, help_argv);
         return -1;
     }
     if (argc == 1) {
-        printf("Los siguientes comandos del minishell son definidos internamente, para informacion mas detallada ingresar", 
-        "\"help [command name]\":\n");
-        for (int i = 0; syntax_array[i] != NULL; i++) {
+        printf("Los siguientes comandos del minishell son definidos internamente, para informacion mas detallada ingresar\n\"help [command name]\":\n");
+        for (int i = 0; syntax_array[i][0] != '\0'; i++) {
             printf("%s\n", syntax_array[i]);
         } 
         return 0;

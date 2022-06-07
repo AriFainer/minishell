@@ -7,6 +7,8 @@ int builtin_setenv(int argc, char **argv)
 {
     if (argc!=3){
         fprintf(stderr,"Error de sintaxis\n");
+        char *help_argv[] = {"help", "setenv"};
+        builtin_help(2, help_argv);
         return -1;
     }
     if (setenv(argv[1], argv[2], 1) == 0)

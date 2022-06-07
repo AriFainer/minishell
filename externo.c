@@ -9,11 +9,11 @@
 
 #include "minish.h"
 
+
 extern int 
 externo(__attribute__((unused)) int argc, char **argv) {
     pid_t pid;       // process ID: an unsigned integer type
     int wait_status; // wait status will be filled by waitpid syscall
-    int return_value = 0; //status
 
     fprintf(stderr, "Will fork %s command\n", argv[0]);
 
@@ -22,12 +22,14 @@ externo(__attribute__((unused)) int argc, char **argv) {
 
     if ((pid = fork()) < 0) { // fork error, i.e. too many processes
         error(0, errno, "fork error\n"); // will fprintf the error and go on
+        return -1;
     }
     else if (pid == 0) { // child process
         newact.sa_handler = SIG_DFL;
         sigaction(SIGINT, &newact, NULL); // reset SIGINT default for child
-        return_value = execvp(argv[0], argv);
+        execvp(argv[0], argv);
         error(EXIT_FAILURE, errno, "execvp error\n"); // if exec not successful, just exit child
+        exit(EXIT_SUCCESS);
     }
     else { // pid > 0: parent (shell) process
         newact.sa_handler = SIG_IGN;
@@ -36,7 +38,7 @@ externo(__attribute__((unused)) int argc, char **argv) {
         sigaction(SIGINT, &oldact, NULL); // restore SIGINT when child finishes
         fprintf(stderr, "Ended child process\n");
         // do something with wait_status
+        int return_value= WIFEXITED(wait_status) ? WEXITSTATUS(wait_status) : -1;
         return return_value;
     }
-    return return_value;
 }
