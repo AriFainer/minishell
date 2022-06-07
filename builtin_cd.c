@@ -8,7 +8,9 @@
 int 
 builtin_cd(int argc, char **argv) {
     if (argc > 2) {
-        // correr el built in help de cd , error de sintaxis
+        fprintf(stderr, "Error: Sintaxis incorrecta del comando \"cd\"\n");
+        char help_argv[] = {"help", "cd"};
+        builtin_help(2, help_argv);
         return -1; 
     }
     if (argc == 1) {
@@ -23,12 +25,11 @@ builtin_cd(int argc, char **argv) {
         getcwd(directory, MAXCWD);
         return 0;
     }
-    if (chdir(argv[1]) == 0)
-    {
+    if (chdir(argv[1]) == 0) {
         strcpy(prevdirectory, directory);
         getcwd(directory, MAXCWD);
         return 0;
     }
-    fprintf(stderr, "ERROR: No existe el directorio %s\n", argv[1]);
+    fprintf(stderr, "Error: No existe el directorio %s\n", argv[1]);
     return -1;
 }
