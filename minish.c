@@ -14,7 +14,9 @@
 #define GREEN "\033[1;32m"
 #define RESET "\033[0m"
 
-#define HELP_CD      "cd [..|dir] - cambia de directorio corriente"
+#define HELP_CD     "cd [..|dir] - Cambia el directorio corriente de trabajo del minishell.\n"\
+                    "El directorio se cambia por por dir. El directorio por defecto (sin argumento) es el directorio HOME."\
+                    "Exit status: \n Devuelve 0 si se logra cambiar el directorio y -1 en caso contrario (error de sintaxis o no existe el directorio dir)."
 #define HELP_DIR     "dir [texto/directorio]- muestra archivos en directorio corriente, que tengan 'str'"
 #define HELP_EXIT    "exit [status] - finaliza el minish con un status de retorno (por defecto 0)"
 #define HELP_HELP    "help [cd|dir|exit|help|history|getenv|pid|setenv|status|uid]"
@@ -32,7 +34,7 @@ struct builtin_struct builtin_arr[] = {
         //{ "dir", builtin_dir, HELP_DIR},
         { "exit", builtin_exit, HELP_EXIT },
         { "help", builtin_help, HELP_HELP },
-        /*{ "history", builtin_history, HELP_HISTORY },*/
+        //{ "history", builtin_history, HELP_HISTORY },
         { "getenv", builtin_getenv, HELP_GETENV },
         { "pid", builtin_pid, HELP_PID },
         { "setenv", builtin_setenv, HELP_SETENV },
