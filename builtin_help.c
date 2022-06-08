@@ -16,7 +16,7 @@ builtin_help(int argc, char **argv) {
     if (argc == 1) {
         printf("Los siguientes comandos del minishell son definidos internamente, para informacion mas detallada ingresar\"help [command name]\":\n");
         for (int i = 0; syntax_array[i][0] != '\0'; i++) {
-            printf("%s\n", syntax_array[i]);
+            printf("\t%s\n", syntax_array[i]);
         } 
         return 0;
     }
