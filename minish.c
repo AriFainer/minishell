@@ -16,8 +16,11 @@
 
 #define HELP_CD      "cd [..|dir] - cambia de directorio corriente"
 #define HELP_DIR     "dir [texto/directorio]- muestra archivos en directorio corriente, que tengan 'str'"
-#define HELP_EXIT    "exit [status] - finaliza el minish con un status de retorno (por defecto 0)"
-#define HELP_HELP    "help [cd|dir|exit|help|history|getenv|pid|setenv|status|uid]"
+#define HELP_EXIT    "exit [N] - finaliza el minish con N como status de retorno.\n Si N es omitido, el status de retorno es el del ultimo comando ejecutado"
+#define HELP_HELP    "help [cd|dir|exit|help|history|getenv|pid|setenv|status|uid]\nMuestra breves resumenes sobre los comandos internos."\
+                    " De recibir un parametro, provee ayuda detallada sobre el comando especificado.\n"\
+                     "Argumentos:\n\tCOMANDO  Comando especificando el topico de ayuda\n Exit Status: \n"\
+                     "\tDevuelve un status exitoso, a menos que no se encuentre el comando o se ingrese una opcion invalida."
 #define HELP_HISTORY "history [N] - muestra los últimos N (10) comandos escritos"
 #define HELP_GETENV  "getenv var [var] - muestra valor de variable(s) de ambiente"
 #define HELP_PID     "pid - muestra Process Id del minish"
