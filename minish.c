@@ -14,9 +14,10 @@
 #define GREEN "\033[1;32m"
 #define RESET "\033[0m"
 
-#define HELP_CD     "cd [..|dir] - Cambia el directorio corriente de trabajo del minishell.\n"\
-                    "El directorio se cambia por por dir. El directorio por defecto (sin argumento) es el directorio HOME."\
-                    "Exit status: \n Devuelve 0 si se logra cambiar el directorio y -1 en caso contrario (error de sintaxis o no existe el directorio dir)."
+#define HELP_CD     "cd [..|dir]\n\tCambia el directorio corriente de trabajo del minishell.\n"\ // habria que poner el "-" en los argumentos?
+                    "\n\tEl directorio se cambia por el argumento dir. Si se ingresa como argumento \"-\" se vuelve al directorio"\
+                    " de trabajo antrior. El directorio por defecto (cd sin argumento) es el directorio HOME.\n"\
+                    "\n\tExit status: \n\tDevuelve 0 si se logra cambiar el directorio y -1 en caso contrario (error de sintaxis o no existe el directorio dir)."
 #define HELP_DIR     "dir [texto/directorio]- muestra archivos en directorio corriente, que tengan 'str'"
 #define HELP_EXIT    "exit [N] - finaliza el minish con N como status de retorno.\n Si N es omitido, el status de retorno es el del ultimo comando ejecutado"
 #define HELP_HELP    "help [cd|dir|exit|help|history|getenv|pid|setenv|status|uid]\nMuestra breves resumenes sobre los comandos internos."\
@@ -108,7 +109,7 @@ main(__attribute__((unused)) int argc, char* argv[]) { // al profe dijo que no l
         char **arr_arg = malloc(sizeof(char*)*MAXWORDS);
         int cant_palabras;
         if ((cant_palabras = linea2argv(line, MAXWORDS, arr_arg)) > 0) {
-            fprintf(stderr, "Will execute command %s\n", arr_arg[0]);
+            fprintf(stderr, "Will execute command %s\n", arr_arg[0]); // capaz se le puede agregar los argumentos con un for hasta encontrar un NULL
             globalstatret = ejecutar(cant_palabras, arr_arg);
         }
     }
