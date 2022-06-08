@@ -13,8 +13,8 @@
 
 #define GREEN "\033[1;32m"
 #define RESET "\033[0m"
-
-#define HELP_CD     "cd [..|dir]\n\tCambia el directorio corriente de trabajo del minishell.\n"\ // habria que poner el "-" en los argumentos?
+// habria que poner el "-" en los argumentos?
+#define HELP_CD     "cd [..|dir]\n\tCambia el directorio corriente de trabajo del minishell.\n"\
                     "\n\tEl directorio se cambia por el argumento dir. Si se ingresa como argumento \"-\" se vuelve al directorio"\
                     " de trabajo antrior. El directorio por defecto (cd sin argumento) es el directorio HOME.\n"\
                     "\n\tExit status: \n\tDevuelve 0 si se logra cambiar el directorio y -1 en caso contrario (error de sintaxis o no existe el directorio dir)."
