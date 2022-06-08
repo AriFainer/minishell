@@ -37,8 +37,8 @@ struct builtin_struct builtin_arr[] = {
         //{ "history", builtin_history, HELP_HISTORY },
         { "getenv", builtin_getenv, HELP_GETENV },
         { "pid", builtin_pid, HELP_PID },
-        { "setenv", builtin_setenv, HELP_SETENV },
-        { "unsetenv", builtin_status, HELP_STATUS },
+        { "setenv",builtin_setenv,HELP_SETENV},
+        { "unsetenv",builtin_unsetenv,HELP_UNSETENV},
         { "status", builtin_status, HELP_STATUS },
         { "uid", builtin_uid, HELP_UID },
         { "gid", builtin_gid, HELP_GID },
@@ -58,7 +58,7 @@ char syntax_array[][MAXLINE] = {
         "status",
         "uid",
         "unsetenv [var ...]",
-        NULL 
+        "\0" 
 };
 
 int globalstatret = 0;
@@ -101,15 +101,15 @@ main(__attribute__((unused)) int argc, char* argv[]) { // al profe dijo que no l
             }
         }
         
-        fprintf(stderr, "Will execute command %s", argv[0]);
+        
         char **arr_arg = malloc(sizeof(char*)*MAXWORDS);
         int cant_palabras;
         if ((cant_palabras = linea2argv(line, MAXWORDS, arr_arg)) > 0) {
+            fprintf(stderr, "Will execute command %s\n", arr_arg[0]);
             globalstatret = ejecutar(cant_palabras, arr_arg);
         }
     }
 
-    fputc('\n', stderr);
-    char exit_argv[] = {"exit", globalstatret};
+    char *exit_argv[] = {"exit",NULL};
     builtin_exit(2, exit_argv);
 }

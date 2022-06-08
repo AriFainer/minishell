@@ -6,7 +6,7 @@ CFLAGS=-Wall -Wextra -std=gnu99 -ggdb -c -g 		# el -g es para permitirle al comp
 # LDLIBS=
 
 # Este sería el ejecutable, sus dependencias son los .o
-minish: minish.o linea2argv.o builtin_getenv.o temp.o ejecutar.o externo.o builtin_lookup.o builtin_cd.o builtin_pid.o builtin_gid.o builtin_uid.o
+minish: minish.o linea2argv.o builtin_getenv.o temp.o ejecutar.o externo.o builtin_lookup.o builtin_cd.o builtin_pid.o builtin_gid.o builtin_uid.o builtin_setenv.o builtin_unsetenv.o builtin_exit.o builtin_help.o builtin_status.o
 
 # Acá van los .o, make sabe que cada .o depende del .c correspondiente, acá se agrega la dependencia al .h
 minish.o: minish.h
@@ -19,5 +19,8 @@ builtin_cd.o: minish.h
 builtin_uid.o:minish.h
 builtin_pid.o: minish.h
 builtin_gid.o: minish.h
-
-clean: rm -f *.o minish
+builtin_setenv.o: minish.h
+builtin_unsetenv.o: minish.h
+builtin_help.o: minish.h
+builtin_exit.o: minish.h
+builtin_status.o: minish.h
