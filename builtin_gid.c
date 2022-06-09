@@ -14,14 +14,14 @@ builtin_gid(int argc, char ** argv) {
     struct group *main_group = getgrgid(g_id);
     if(main_group == NULL){
         fprintf(stderr, "Error en el acceso al nombre de el grupo principal.");
-        return -1;
+        return EXIT_FAILURE;
     }
     struct group *secondary_group;
 
     int cantidad_de_grupos = getgroups(NGROUPS_MAX, secondary_groups_list);
     if (cantidad_de_grupos < 0) {
         fprintf(stderr, "Error en el acceso a los grupos secundarios del usuario.");
-        return -1;
+        return EXIT_FAILURE;
     }
     else if (cantidad_de_grupos == 0) {
         fprintf(stdout,"Grupo principal: %d \nNombre grupo principal: %s\nEl usuario no tiene grupos secundarios.", g_id, main_group->gr_name);
@@ -33,10 +33,10 @@ builtin_gid(int argc, char ** argv) {
             secondary_group = getgrgid(secondary_group_id);
             if (secondary_group == NULL) {
                 fprintf(stderr, "Error en el acceso al nombre de los grupos secundarios.");
-                return -1;
+                return EXIT_FAILURE;
             }
             fprintf(stdout,"\tId grupo: %d\n\tNombre grupo: %s\n", secondary_group_id, secondary_group->gr_name);
         }
     }
-    return 0;
+    return EXIT_SUCCESS;
 }

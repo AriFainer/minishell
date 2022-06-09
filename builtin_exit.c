@@ -9,14 +9,15 @@ builtin_exit(int argc, char ** argv) {
         fprintf(stderr, "Error: Sintaxis incorrecta del comando \"exit\"\n");
         char *help_argv[] = {"help", "exit"};
         builtin_help(2, help_argv);
-        return -1;
+        return EXIT_FAILURE;
     }
     char *retorno = argv[1];
     fputc('\n', stderr);
-    if (retorno != NULL) {
+    if (argc==1) {
         globalstatret=atoi(retorno);
     }
     fprintf(stderr, "Exiting %s ...\n", progname);
+    clean_argv(argv);
     exit(globalstatret);
-    return -1; //Nunca se deberia llegar a este punto
+    return EXIT_FAILURE; //Nunca se deberia llegar a este punto
 }
