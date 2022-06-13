@@ -3,7 +3,8 @@
 
 #include "minish.h"
 
-int builtin_getenv(int argc, char **argv)
+int
+builtin_getenv(int argc, char **argv)
 {
     char *env;
     for (int i = 1; i < argc; i++){
@@ -12,5 +13,5 @@ int builtin_getenv(int argc, char **argv)
         else
             fprintf(stderr, "No existe la variable de ambiente %s\n", argv[i]);
     }
-    return 0;
+    return EXIT_SUCCESS;
 }

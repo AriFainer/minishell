@@ -13,7 +13,7 @@
 
 #define GREEN "\033[1;32m"
 #define RESET "\033[0m"
-// habria que poner el "-" en los argumentos?
+// habria que poner el "-" en los argumentos? y tambien agregar lo de home
 #define HELP_CD      "cd [..|dir]\n\tCambia el directorio corriente de trabajo del minishell.\n"\
                      "\n\tEl directorio se cambia por el argumento dir. Si se ingresa como argumento \"-\" se vuelve al directorio"\
                      " de trabajo antrior. El directorio por defecto (cd sin argumento) es el directorio HOME.\n"\
@@ -98,6 +98,8 @@ main(__attribute__((unused)) int argc, char* argv[]) { // al profe dijo que no l
     getcwd(directory, MAXCWD);
     strcpy(prevdirectory, directory);
 
+    char *arr_arg[MAXWORDS] = {NULL};
+
     for (;;) {
         prompt(progname);
         if (fgets(line, MAXLINE, stdin) == NULL) {  // EOF
@@ -108,8 +110,6 @@ main(__attribute__((unused)) int argc, char* argv[]) { // al profe dijo que no l
             }
         }
         
-        
-        char **arr_arg = malloc(sizeof(char*)*MAXWORDS);
         int cant_palabras;
         if ((cant_palabras = linea2argv(line, MAXWORDS, arr_arg)) > 0) {
             fprintf(stderr, "Will execute command %s\n", arr_arg[0]); // capaz se le puede agregar los argumentos con un for hasta encontrar un NULL
@@ -117,6 +117,5 @@ main(__attribute__((unused)) int argc, char* argv[]) { // al profe dijo que no l
         }
     }
 
-    char *exit_argv[] = {"exit",NULL};
-    builtin_exit(2, exit_argv);
+    builtin_exit(1, arr_arg);
 }
