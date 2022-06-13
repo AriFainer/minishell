@@ -95,6 +95,8 @@ main(__attribute__((unused)) int argc, char* argv[]) { // al profe dijo que no l
     getcwd(directory, MAXCWD);
     strcpy(prevdirectory, directory);
 
+    char *arr_arg[MAXWORDS] = {NULL};
+
     for (;;) {
         prompt(progname);
         if (fgets(line, MAXLINE, stdin) == NULL) {  // EOF
@@ -105,8 +107,6 @@ main(__attribute__((unused)) int argc, char* argv[]) { // al profe dijo que no l
             }
         }
         
-        
-        char **arr_arg = malloc(sizeof(char*)*MAXWORDS);
         int cant_palabras;
         if ((cant_palabras = linea2argv(line, MAXWORDS, arr_arg)) > 0) {
             fprintf(stderr, "Will execute command %s\n", arr_arg[0]); // capaz se le puede agregar los argumentos con un for hasta encontrar un NULL
@@ -114,6 +114,5 @@ main(__attribute__((unused)) int argc, char* argv[]) { // al profe dijo que no l
         }
     }
 
-    char *exit_argv[] = {"exit",NULL};
-    builtin_exit(2, exit_argv);
+    builtin_exit(1, arr_arg);
 }

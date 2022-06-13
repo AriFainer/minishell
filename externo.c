@@ -29,7 +29,6 @@ externo(__attribute__((unused)) int argc, char **argv) {
         sigaction(SIGINT, &newact, NULL); // reset SIGINT default for child
         execvp(argv[0], argv);
         error(EXIT_FAILURE, errno, "execvp error\n"); // if exec not successful, just exit child
-        exit(EXIT_SUCCESS);
     }
     else { // pid > 0: parent (shell) process
         newact.sa_handler = SIG_IGN;
@@ -38,7 +37,7 @@ externo(__attribute__((unused)) int argc, char **argv) {
         sigaction(SIGINT, &oldact, NULL); // restore SIGINT when child finishes
         fprintf(stderr, "Ended child process\n");
         // do something with wait_status
-        int return_value= WIFEXITED(wait_status) ? WEXITSTATUS(wait_status) : -1;
+        int return_value= WIFEXITED(wait_status) ? WEXITSTATUS(wait_status) : EXIT_FAILURE;
         return return_value;
     }
 }

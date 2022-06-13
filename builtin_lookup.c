@@ -3,7 +3,8 @@
 
 #include "minish.h"
 
-struct builtin_struct *builtin_lookup(char *cmd) {
+struct builtin_struct 
+*builtin_lookup(char *cmd) {
     struct builtin_struct *function;
     int i;
     for (i = 0; builtin_arr[i].cmd != NULL && strcmp(cmd, builtin_arr[i].cmd) != 0; i++);

@@ -13,7 +13,7 @@ builtin_uid(int argc, char ** argv) {
     if (password != NULL) {
         char *name = password->pw_name;
         fprintf(stdout,"userid: %d \nusername: %s\n", u_id, name);
-        return 0;
+        return EXIT_SUCCESS;
     }
-    return -1;
+    return EXIT_FAILURE;
 }
