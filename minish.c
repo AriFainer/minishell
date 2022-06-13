@@ -19,7 +19,7 @@
                      " de trabajo antrior. El directorio por defecto (cd sin argumento) es el directorio HOME.\n"\
                      "\n\tExit status: \n\tDevuelve 0 si se logra cambiar el directorio y -1 en caso contrario (error de sintaxis o no existe el directorio dir)."
 #define HELP_DIR     "dir [texto/directorio]\n\tLista los archivos de un directorio. En caso de no recibir argumentos muestra los archivos del directorio actual..\n"\
-                     "\nSi recibe un solo argumento y este coincide con \n"
+                     "\nSi recibe un solo argumento y este coincide con \n"\
                      "\n\tArgumentos:\n\tDIRECTORIO  Directorio especificando de que directorio listar los archivos.\n\n\tExit Status:\n"\
                      "\tDevuelve un status exitoso, a menos que ocurra un error o se ingrese una opcion invalida."
 #define HELP_EXIT    "exit [N]\n\tFinaliza el minish con N como status de retorno.\n\n\tSi N es omitido, el status de retorno es el del ultimo comando ejecutado."

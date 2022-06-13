@@ -29,6 +29,7 @@ externo(__attribute__((unused)) int argc, char **argv) {
         sigaction(SIGINT, &newact, NULL); // reset SIGINT default for child
         execvp(argv[0], argv);
         error(EXIT_FAILURE, errno, "execvp error\n"); // if exec not successful, just exit child
+        exit(EXIT_SUCCESS);
     }
     else { // pid > 0: parent (shell) process
         newact.sa_handler = SIG_IGN;
