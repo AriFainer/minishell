@@ -1,6 +1,7 @@
 #define MAXLINE 1024        // tamaño máximo de la línea de entrada
 #define MAXCWD 1024         // tamaño máximo para alojar el pathname completo del directorio corriente
 #define MAXWORDS 256        // cantidad máxima de palabras en la línea
+#define MAXHIST 1000 //Permitimos gardar hasta 1000 comandos de la ejecucion actual
 #define HISTORY_FILE	".minish_history"   // nombre del archivo que almacena historia de comandos
 
 // Definición de Estructuras
@@ -80,6 +81,7 @@ extern int builtin_setenv (int argc, char ** argv);
 extern int builtin_pid (int argc, char ** argv);
 extern int builtin_uid (int argc, char ** argv);
 extern int builtin_unsetenv (int argc, char ** argv);
+extern int builtin_mes(int argc, char **argv);
 extern int ejecutar (int argc, char ** argv);
 extern int externo (int argc, char ** argv);
 extern int linea2argv(char *linea, int argc, char **argv);

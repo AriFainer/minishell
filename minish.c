@@ -13,7 +13,7 @@
 
 #define GREEN "\033[1;32m"
 #define RESET "\033[0m"
-#define MAXHIST 1000 //Permitimos gardar hasta 1000 comandos de la ejecucion actual
+
 // habria que poner el "-" en los argumentos? y tambien agregar lo de home
 #define HELP_CD      "cd [..|dir]\n\tCambia el directorio corriente de trabajo del minishell.\n"\
                      "\n\tEl directorio se cambia por el argumento dir. Si se ingresa como argumento \"-\" se vuelve al directorio"\
@@ -36,7 +36,7 @@
 #define HELP_UID     "uid - muestra nombre y número de usuario dueño del minish"
 #define HELP_GID     "ARRGELAR"
 #define HELP_UNSETENV "ARRGELAR"
-#define HElP_MES     "ARREGLAR" 
+#define HELP_MES     "ARREGLAR" 
 
 struct builtin_struct builtin_arr[] = {
         { "cd", builtin_cd, HELP_CD },
@@ -120,7 +120,7 @@ main(__attribute__((unused)) int argc, char* argv[]) { // al profe dijo que no l
         if ((cant_palabras = linea2argv(line, MAXWORDS, arr_arg)) > 0) {
             fprintf(stderr, "Will execute command %s\n", arr_arg[0]); // capaz se le puede agregar los argumentos con un for hasta encontrar un NULL
             globalstatret = ejecutar(cant_palabras, arr_arg);
-            buffer
+            // Aca vamos a meter en el buffer los comandos que ejecutamos en esta ejecucion
         }
     }
 
