@@ -26,6 +26,9 @@ extern char *progname; // Guardo en una variable global el nombre del programa
 extern struct builtin_struct builtin_arr[];
 
 extern char syntax_array[][MAXLINE];
+extern char buffer[MAXHIST][MAXLINE];
+extern char meses[][10];
+
 
 /*
     builtin_arr es una lista de los builtins, que se recorrerá en forma lineal.
