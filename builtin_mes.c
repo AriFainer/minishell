@@ -25,7 +25,7 @@ print_month(struct tm *end_of_month, int wday){
     printf("%s %d\n",meses[end_of_month->tm_mon],1900 + end_of_month->tm_year);
     printf("Su\tMo\tTu\tWe\tTh\tFr\tSa\n");
     //La primera vez me acomodo de acuerdo a donde empieza el mes
-    wday++;
+    wday= (wday+1)%7;
     for(int j = 0; j<wday; j++){
         printf("\t");
     }
