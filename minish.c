@@ -10,10 +10,11 @@
 #include <pwd.h>
 
 #include "minish.h"
+#include "wrappers.h"
 
 #define GREEN "\033[1;32m"
 #define RESET "\033[0m"
-#define MAXHIST 1000 //Permitimos gardar hasta 1000 comandos de la ejecucion actual
+
 // habria que poner el "-" en los argumentos? y tambien agregar lo de home
 #define HELP_CD      "cd [..|dir]\n\tCambia el directorio corriente de trabajo del minishell.\n"\
                      "\n\tEl directorio se cambia por el argumento dir. Si se ingresa como argumento \"-\" se vuelve al directorio"\
@@ -36,14 +37,14 @@
 #define HELP_UID     "uid - muestra nombre y número de usuario dueño del minish"
 #define HELP_GID     "ARRGELAR"
 #define HELP_UNSETENV "ARRGELAR"
-#define HElP_MES     "ARREGLAR" 
+#define HELP_MES     "ARREGLAR" 
 
 struct builtin_struct builtin_arr[] = {
         { "cd", builtin_cd, HELP_CD },
         //{ "dir", builtin_dir, HELP_DIR},
         { "exit", builtin_exit, HELP_EXIT },
         { "help", builtin_help, HELP_HELP },
-        //{ "history", builtin_history, HELP_HISTORY },
+        { "history", builtin_history, HELP_HISTORY },
         { "getenv", builtin_getenv, HELP_GETENV },
         { "pid", builtin_pid, HELP_PID },
         { "setenv",builtin_setenv,HELP_SETENV},
@@ -51,7 +52,7 @@ struct builtin_struct builtin_arr[] = {
         { "status", builtin_status, HELP_STATUS },
         { "uid", builtin_uid, HELP_UID },
         { "gid", builtin_gid, HELP_GID },
-        {"mes", builtin_mes, HELP_MES}, 
+        //{"mes", builtin_mes, HELP_MES}, 
         { NULL, NULL, NULL }
 };
 
@@ -77,8 +78,10 @@ char *progname;
 struct sigaction oldact, newact;
 char directory[MAXCWD];
 char prevdirectory[MAXCWD];
-char buffer[MAXHIST][MAXLINE];
+char buffer[MAXHIST][MAXLINE]={'\0'};
+int buffer_idx;
 char meses[][10]={"ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SETIEMBE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"};
+FILE *history = NULL;
 
 void
 prompt(char *ps) {
@@ -105,6 +108,13 @@ main(__attribute__((unused)) int argc, char* argv[]) { // al profe dijo que no l
     strcpy(prevdirectory, directory);
 
     char *arr_arg[MAXWORDS] = {NULL};
+    buffer_idx=0;
+    char *history_path;
+    if ((history_path = getenv("HOME"))!=NULL){
+        strcat(history_path,HISTORY_FILE);
+        history = fopen_or_exit(history_path,"a+");
+            
+    }
 
     for (;;) {
         prompt(progname);
@@ -120,7 +130,8 @@ main(__attribute__((unused)) int argc, char* argv[]) { // al profe dijo que no l
         if ((cant_palabras = linea2argv(line, MAXWORDS, arr_arg)) > 0) {
             fprintf(stderr, "Will execute command %s\n", arr_arg[0]); // capaz se le puede agregar los argumentos con un for hasta encontrar un NULL
             globalstatret = ejecutar(cant_palabras, arr_arg);
-            buffer
+            strcpy(buffer[buffer_idx],line);
+            buffer_idx = (buffer_idx + 1) % MAXHIST;
         }
     }
 

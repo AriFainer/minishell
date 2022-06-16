@@ -18,6 +18,7 @@ builtin_exit(int argc, char ** argv) {
     }
     fprintf(stderr, "Exiting %s ...\n", progname);
     clean_argv(argv);
+    save_history();
     exit(globalstatret);
     return EXIT_FAILURE; //Nunca se deberia llegar a este punto
 }

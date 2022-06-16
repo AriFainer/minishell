@@ -21,3 +21,5 @@ builtin_setenv.o
 builtin_exit.o
 builtin_status.o
 builtin_help.o
+wrappers.o
+builtin_history.o
