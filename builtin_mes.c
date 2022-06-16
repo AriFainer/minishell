@@ -26,15 +26,16 @@ print_month(struct tm *end_of_month, int wday){
     printf("Su\tMo\tTu\tWe\tTh\tFr\tSa\n");
     //La primera vez me acomodo de acuerdo a donde empieza el mes
     for(int j = 0; j<wday; j++){
-        print("\t");
+        printf("\t");
     }
     for(int i=1;i<=end_of_month->tm_mday;i++, wday = (wday+1)%7){
         if(wday == 0 && i != 1){ // Me fijo si tengo que cambiar de renglon
-            printf("\n");
+            printf("\n%i\t", i);
         }else{
             printf("%i\t", i); 
         }
     }
+    fputc('\n',stdout);
 }
 
 
@@ -42,7 +43,8 @@ int
 builtin_mes(int argc, char **argv) {
 
 
-    time_t tiempo = time();
+    time_t tiempo;
+    time(&tiempo);
     struct tm *fecha;
     if (argc > 3) {
         fprintf(stderr, "Error: Sintaxis incorrecta del comando \"mes\"\n");
@@ -51,7 +53,7 @@ builtin_mes(int argc, char **argv) {
         return EXIT_FAILURE; 
     }
     if (argc == 1) { // No me pasan argumentos
-        if((fecha = localtime(&tiempo))!=0){
+        if((fecha = localtime(&tiempo))==NULL){
             fprintf(stderr, "Error: Hubo un error en la busqueda de la fecha actual\n");
             return EXIT_FAILURE;
         }
@@ -70,11 +72,10 @@ builtin_mes(int argc, char **argv) {
     }*/
 
     int wday_1 = get_wday_of_the_first(fecha);
-    print_month(fecha, wday_1)
+    print_month(fecha, wday_1);
 
 
 
 
-    fprintf(stderr, "Error: No existe el directorio %s\n", argv[1]);
-    return EXIT_FAILURE;
+    return EXIT_SUCCESS;
 }

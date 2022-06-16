@@ -52,7 +52,7 @@ struct builtin_struct builtin_arr[] = {
         { "status", builtin_status, HELP_STATUS },
         { "uid", builtin_uid, HELP_UID },
         { "gid", builtin_gid, HELP_GID },
-        //{"mes", builtin_mes, HELP_MES}, 
+        {"mes", builtin_mes, HELP_MES}, 
         { NULL, NULL, NULL }
 };
 
