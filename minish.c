@@ -109,8 +109,10 @@ main(__attribute__((unused)) int argc, char* argv[]) { // al profe dijo que no l
 
     char *arr_arg[MAXWORDS] = {NULL};
     buffer_idx=0;
-    char *history_path;
-    if ((history_path = getenv("HOME"))!=NULL){
+    char history_path[MAXCWD];
+    char *home_path;
+    if ((home_path = getenv("HOME"))!=NULL){
+        strcpy(history_path,home_path);
         strcat(history_path,HISTORY_FILE);
         history = fopen_or_exit(history_path,"a+");
             

@@ -17,7 +17,7 @@ set_to_end_of_month(struct tm *fecha){
 int
 get_wday_of_the_first(struct tm *fecha){
     set_to_end_of_month(fecha);
-    return 7 + (fecha->tm_wday - fecha->tm_mday) % 7;
+    return (7 + (fecha->tm_wday - fecha->tm_mday + 1) % 7)%7;
 }
 
 void
@@ -25,7 +25,6 @@ print_month(struct tm *end_of_month, int wday){
     printf("%s %d\n",meses[end_of_month->tm_mon],1900 + end_of_month->tm_year);
     printf("Su\tMo\tTu\tWe\tTh\tFr\tSa\n");
     //La primera vez me acomodo de acuerdo a donde empieza el mes
-    wday= (wday+1)%7;
     for(int j = 0; j<wday; j++){
         printf("\t");
     }
