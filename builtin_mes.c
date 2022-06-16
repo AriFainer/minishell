@@ -24,8 +24,16 @@ void
 print_month(struct tm *end_of_month, int wday){ 
     printf("%s %d\n",meses[end_of_month->tm_mon],1900 + end_of_month->tm_year);
     printf("Su\tMo\tTu\tWe\tTh\tFr\tSa\n");
-    for(int i=1;i<=end_of_month->tm_mday;i++,wday = (wday+1)%7){
-
+    //La primera vez me acomodo de acuerdo a donde empieza el mes
+    for(int j = 0; j<wday; j++){
+        print("\t");
+    }
+    for(int i=1;i<=end_of_month->tm_mday;i++, wday = (wday+1)%7){
+        if(wday == 0 && i != 1){ // Me fijo si tengo que cambiar de renglon
+            printf("\n");
+        }else{
+            printf("%i\t", i); 
+        }
     }
 }
 
