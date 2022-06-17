@@ -32,10 +32,11 @@
 #define HELP_UID     "uid - muestra nombre y número de usuario dueño del minish"
 #define HELP_GID     "ARRGELAR"
 #define HELP_UNSETENV "ARRGELAR"
+#define HELP_MES "ARREGLAR"
 
 struct builtin_struct builtin_arr[] = {
         { "cd", builtin_cd, HELP_CD },
-        //{ "dir", builtin_dir, HELP_DIR},
+        { "dir", builtin_dir, HELP_DIR},
         { "exit", builtin_exit, HELP_EXIT },
         { "help", builtin_help, HELP_HELP },
         //{ "history", builtin_history, HELP_HISTORY },
@@ -46,6 +47,7 @@ struct builtin_struct builtin_arr[] = {
         { "status", builtin_status, HELP_STATUS },
         { "uid", builtin_uid, HELP_UID },
         { "gid", builtin_gid, HELP_GID },
+        { "mes", builtin_mes, HELP_MES },
         { NULL, NULL, NULL }
 };
 
@@ -62,6 +64,7 @@ char syntax_array[][MAXLINE] = {
         "status",
         "uid",
         "unsetenv [var ...]",
+        "mes [[mes] año]"
         "\0" 
 };
 

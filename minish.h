@@ -77,6 +77,7 @@ extern int builtin_setenv (int argc, char ** argv);
 extern int builtin_pid (int argc, char ** argv);
 extern int builtin_uid (int argc, char ** argv);
 extern int builtin_unsetenv (int argc, char ** argv);
+extern int builtin_mes (int argc, char ** argv);
 extern int ejecutar (int argc, char ** argv);
 extern int externo (int argc, char ** argv);
 extern int linea2argv(char *linea, int argc, char **argv);
