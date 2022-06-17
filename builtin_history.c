@@ -28,6 +28,7 @@ save_history (){
          i = (i + 1) % MAXHIST, lcount++){
             fprintf (history, "%s", buffer[i]);
     }
+    fclose(history);
 }
 
 void
