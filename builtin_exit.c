@@ -13,11 +13,12 @@ builtin_exit(int argc, char ** argv) {
     }
     char *retorno = argv[1];
     fputc('\n', stderr);
-    if (argc==1) {
+    if (argc==2) {
         globalstatret=atoi(retorno);
     }
     fprintf(stderr, "Exiting %s ...\n", progname);
     clean_argv(argv);
+    save_history();
     exit(globalstatret);
     return EXIT_FAILURE; //Nunca se deberia llegar a este punto
 }

@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "minish.h"
+#include "wrappers.h"
 
 #define COMILLAS "\"\'"
 
@@ -44,7 +45,7 @@ int linea2argv(char *linea, int argc, char **argv) {
         if (isspace(*lectura)) {
             if (i > 0) {
                 word[i] = '\0';
-                argv[j++] = strdup(word);
+                argv[j++] = strdup_or_exit(word);
             }
             if (j == argc) return j;
             lectura++;
@@ -57,7 +58,7 @@ int linea2argv(char *linea, int argc, char **argv) {
     }
     if (i > 0) {
         word[i] = '\0';
-        argv[j++] = strdup(word);
+        argv[j++] = strdup_or_exit(word);
     }
     return j;
 }

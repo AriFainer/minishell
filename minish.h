@@ -1,7 +1,10 @@
 #define MAXLINE 1024        // tamaño máximo de la línea de entrada
 #define MAXCWD 1024         // tamaño máximo para alojar el pathname completo del directorio corriente
 #define MAXWORDS 256        // cantidad máxima de palabras en la línea
-#define HISTORY_FILE	".minish_history"   // nombre del archivo que almacena historia de comandos
+#define MAXHIST 1000 //Permitimos gardar hasta 1000 comandos de la ejecucion actual
+#define HISTORY_FILE	"/.minish_history"   // nombre del archivo que almacena historia de comandos
+
+#include <stdio.h>
 
 // Definición de Estructuras
 
@@ -26,6 +29,13 @@ extern char *progname; // Guardo en una variable global el nombre del programa
 extern struct builtin_struct builtin_arr[];
 
 extern char syntax_array[][MAXLINE];
+extern char buffer[MAXHIST][MAXLINE];
+extern int buffer_idx;
+extern char meses[][10];
+extern FILE *history;
+extern char *history_map;
+extern int history_size;
+
 
 /*
     builtin_arr es una lista de los builtins, que se recorrerá en forma lineal.
@@ -77,8 +87,10 @@ extern int builtin_setenv (int argc, char ** argv);
 extern int builtin_pid (int argc, char ** argv);
 extern int builtin_uid (int argc, char ** argv);
 extern int builtin_unsetenv (int argc, char ** argv);
-extern int builtin_mes (int argc, char ** argv);
+extern int builtin_mes(int argc, char **argv);
 extern int ejecutar (int argc, char ** argv);
 extern int externo (int argc, char ** argv);
 extern int linea2argv(char *linea, int argc, char **argv);
 extern void clean_argv(char **argv);
+extern void save_history();
+extern void load_history(char *home_path);

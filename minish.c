@@ -9,16 +9,22 @@
 #include <signal.h>
 #include <pwd.h>
 
+
 #include "minish.h"
+#include "wrappers.h"
 
 #define GREEN "\033[1;32m"
 #define RESET "\033[0m"
+
 // habria que poner el "-" en los argumentos? y tambien agregar lo de home
 #define HELP_CD      "cd [..|dir]\n\tCambia el directorio corriente de trabajo del minishell.\n"\
                      "\n\tEl directorio se cambia por el argumento dir. Si se ingresa como argumento \"-\" se vuelve al directorio"\
                      " de trabajo antrior. El directorio por defecto (cd sin argumento) es el directorio HOME.\n"\
                      "\n\tExit status: \n\tDevuelve 0 si se logra cambiar el directorio y -1 en caso contrario (error de sintaxis o no existe el directorio dir)."
-#define HELP_DIR     "dir [texto/directorio]- muestra archivos en directorio corriente, que tengan 'str'"
+#define HELP_DIR     "dir [texto/directorio]\n\tLista los archivos de un directorio. En caso de no recibir argumentos muestra los archivos del directorio actual..\n"\
+                     "\nSi recibe un solo argumento y este coincide con \n"\
+                     "\n\tArgumentos:\n\tDIRECTORIO  Directorio especificando de que directorio listar los archivos.\n\n\tExit Status:\n"\
+                     "\tDevuelve un status exitoso, a menos que ocurra un error o se ingrese una opcion invalida."
 #define HELP_EXIT    "exit [N]\n\tFinaliza el minish con N como status de retorno.\n\n\tSi N es omitido, el status de retorno es el del ultimo comando ejecutado."
 #define HELP_HELP    "help [cd|dir|exit|help|history|getenv|pid|setenv|status|uid]\n\tMuestra breves resumenes sobre los comandos internos.\n\n"\
                      "\tDe recibir un parametro, provee ayuda detallada sobre el comando especificado.\n\n"\
@@ -39,7 +45,7 @@ struct builtin_struct builtin_arr[] = {
         { "dir", builtin_dir, HELP_DIR},
         { "exit", builtin_exit, HELP_EXIT },
         { "help", builtin_help, HELP_HELP },
-        //{ "history", builtin_history, HELP_HISTORY },
+        { "history", builtin_history, HELP_HISTORY },
         { "getenv", builtin_getenv, HELP_GETENV },
         { "pid", builtin_pid, HELP_PID },
         { "setenv",builtin_setenv,HELP_SETENV},
@@ -47,7 +53,7 @@ struct builtin_struct builtin_arr[] = {
         { "status", builtin_status, HELP_STATUS },
         { "uid", builtin_uid, HELP_UID },
         { "gid", builtin_gid, HELP_GID },
-        { "mes", builtin_mes, HELP_MES },
+        {"mes", builtin_mes, HELP_MES}, 
         { NULL, NULL, NULL }
 };
 
@@ -73,6 +79,12 @@ char *progname;
 struct sigaction oldact, newact;
 char directory[MAXCWD];
 char prevdirectory[MAXCWD];
+char buffer[MAXHIST][MAXLINE]={'\0'};
+int buffer_idx;
+char meses[][10]={"ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SETIEMBE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"};
+FILE *history = NULL;
+char *history_map;
+int history_size=0;
 
 void
 prompt(char *ps) {
@@ -99,6 +111,11 @@ main(__attribute__((unused)) int argc, char* argv[]) { // al profe dijo que no l
     strcpy(prevdirectory, directory);
 
     char *arr_arg[MAXWORDS] = {NULL};
+    buffer_idx=0;
+    char *home_path;
+    if ((home_path = getenv("HOME"))!=NULL){
+        load_history(home_path);
+    }
 
     for (;;) {
         prompt(progname);
@@ -112,6 +129,8 @@ main(__attribute__((unused)) int argc, char* argv[]) { // al profe dijo que no l
         
         int cant_palabras;
         if ((cant_palabras = linea2argv(line, MAXWORDS, arr_arg)) > 0) {
+            strcpy(buffer[buffer_idx],line);
+            buffer_idx = (buffer_idx + 1) % MAXHIST;
             fprintf(stderr, "Will execute command %s\n", arr_arg[0]); // capaz se le puede agregar los argumentos con un for hasta encontrar un NULL
             globalstatret = ejecutar(cant_palabras, arr_arg);
         }
