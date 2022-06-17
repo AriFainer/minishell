@@ -36,13 +36,13 @@ load_history (char *home_path){
     char history_path[MAXCWD];
     strcpy (history_path, home_path);
     strcat (history_path, HISTORY_FILE);
-    history = fopen_or_exit (history_path, "a+");
-    int fd = fileno (history);
-    struct stat s;
-    fstat (fd, &s);
+    history = fopen_or_exit (history_path, "a+"); // Modo append y read
+    int fd = fileno (history); // File descriptor del history file
+    struct stat s; // Para conseguir el tamano del archivo
+    fstat (fd, &s); // Carga atributos del archivo en s
     history_size = s.st_size;
     history_map
-        = (char *)mmap (0, history_size, PROT_READ, MAP_PRIVATE, fd, 0);
+        = (char *)mmap (0, history_size, PROT_READ, MAP_PRIVATE, fd, 0); // Me carga el archivo como si fuera un string
 }
 
 int
@@ -75,7 +75,7 @@ builtin_history (int argc, char **argv){
 
     int buffer_print_start;
     int buffer_print_qty;
-    int lcount = 0;
+    int lcount = 0; // Contador de cuantas lineas voy imprimiendo
     if (buffer[buffer_idx][0] == '\0'){ // buffer no lleno
             buffer_print_qty
                 = (N < buffer_idx) ? N : buffer_idx; // min(N,buffer_idx)
