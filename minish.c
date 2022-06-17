@@ -9,6 +9,7 @@
 #include <signal.h>
 #include <pwd.h>
 
+
 #include "minish.h"
 #include "wrappers.h"
 
@@ -82,6 +83,8 @@ char buffer[MAXHIST][MAXLINE]={'\0'};
 int buffer_idx;
 char meses[][10]={"ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SETIEMBE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"};
 FILE *history = NULL;
+char *history_map;
+int history_size=0;
 
 void
 prompt(char *ps) {
@@ -109,13 +112,9 @@ main(__attribute__((unused)) int argc, char* argv[]) { // al profe dijo que no l
 
     char *arr_arg[MAXWORDS] = {NULL};
     buffer_idx=0;
-    char history_path[MAXCWD];
     char *home_path;
     if ((home_path = getenv("HOME"))!=NULL){
-        strcpy(history_path,home_path);
-        strcat(history_path,HISTORY_FILE);
-        history = fopen_or_exit(history_path,"a+");
-            
+        load_history(home_path);
     }
 
     for (;;) {
@@ -130,10 +129,10 @@ main(__attribute__((unused)) int argc, char* argv[]) { // al profe dijo que no l
         
         int cant_palabras;
         if ((cant_palabras = linea2argv(line, MAXWORDS, arr_arg)) > 0) {
-            fprintf(stderr, "Will execute command %s\n", arr_arg[0]); // capaz se le puede agregar los argumentos con un for hasta encontrar un NULL
-            globalstatret = ejecutar(cant_palabras, arr_arg);
             strcpy(buffer[buffer_idx],line);
             buffer_idx = (buffer_idx + 1) % MAXHIST;
+            fprintf(stderr, "Will execute command %s\n", arr_arg[0]); // capaz se le puede agregar los argumentos con un for hasta encontrar un NULL
+            globalstatret = ejecutar(cant_palabras, arr_arg);
         }
     }
 

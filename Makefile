@@ -23,6 +23,6 @@ builtin_setenv.o: minish.h
 builtin_unsetenv.o: minish.h
 builtin_help.o: minish.h
 builtin_exit.o: minish.h
-builtin_status.o: minish.h
+builtin_status.o: minish.h wrappers.h
 builtin_history.o: minish.h
 builtin_mes.o : minish.h
