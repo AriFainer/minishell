@@ -38,7 +38,7 @@
 #define HELP_UID     "uid - muestra nombre y número de usuario dueño del minish"
 #define HELP_GID     "ARRGELAR"
 #define HELP_UNSETENV "ARRGELAR"
-#define HELP_MES     "ARREGLAR" 
+#define HELP_MES     "" 
 
 struct builtin_struct builtin_arr[] = {
         { "cd", builtin_cd, HELP_CD },
