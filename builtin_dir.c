@@ -79,11 +79,11 @@ builtin_dir(int argc, char **argv) {
             return EXIT_SUCCESS;
 
         return EXIT_FAILURE;
-        }
-        else {
-
-        }
-
+    }
+    else if (argc == 2) {
+        /* code */
+    }
+    
     fprintf(stderr, (argc == 1) ? "Error: Error al abrir el directorio corriente\n" : "Error: Error al abrir el directorio especificado\n");
     return EXIT_FAILURE;        
 }
