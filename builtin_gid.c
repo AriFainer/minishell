@@ -9,6 +9,12 @@
 
 int 
 builtin_gid(int argc, char ** argv) {
+    if (argc > 1) {
+        fprintf(stderr, "Error: Sintaxis incorrecta del comando \"gid\"\n");
+        char *help_argv[] = {"help", "gid"};
+        builtin_help(2, help_argv);
+        return EXIT_FAILURE; 
+    }
     gid_t secondary_groups_list[NGROUPS_MAX]; // Es el maximo que puede tener un usuario en el SO
     gid_t g_id = getgid(); // Me da el id del grupo principal
     struct group *main_group = getgrgid(g_id);

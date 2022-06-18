@@ -8,6 +8,12 @@
 
 int 
 builtin_uid(int argc, char ** argv) {
+    if (argc > 1) {
+        fprintf(stderr, "Error: Sintaxis incorrecta del comando \"uid\"\n");
+        char *help_argv[] = {"help", "uid"};
+        builtin_help(2, help_argv);
+        return EXIT_FAILURE; 
+    }
     uid_t u_id = getuid();
     struct passwd *password = getpwuid(u_id);
     if (password != NULL) {
