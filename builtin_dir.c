@@ -8,6 +8,7 @@
 #include <pwd.h>
 #include <grp.h>
 #include <time.h>
+#include <stdbool.h>
 
 #include "minish.h"
 #include "wrappers.h"
@@ -19,6 +20,7 @@ swap(struct dirent **dir_entry_1, struct dirent **dir_entry_2) {
     *dir_entry_2 = temp;
 }
 
+
 int 
 builtin_dir(int argc, char **argv) {
     if (argc > 3) {
@@ -28,74 +30,80 @@ builtin_dir(int argc, char **argv) {
         return EXIT_FAILURE; 
     }
 
+    bool filter_exists = false;
+    char *filter;
     DIR *directory;
     struct dirent *dir_entry_arr[1024];
     int dirent_arr_size = 0;
-    if (argc == 1)
-        directory = opendir(".");
-    if (argc == 2 || argc == 3){
-        directory = opendir(argv[1]); //aca hay un error
+    char *search_dir;
+    char dir_entry_path[MAXCWD];
+    if (argc == 1){
+        search_dir = ".";
+    } else if (argc == 2){
+        search_dir = argv[1];
+    }else{ // (argc == 3)
+        filter_exists = true;
+        search_dir = argv[1];
+        filter = argv[2];
     }
+    directory = opendir(search_dir);
 
-    if (directory != NULL) {
-        struct dirent *dir_entry;
-        while ((dir_entry = readdir(directory)) != NULL) { // si arranca con punto lo ignoro como el -l?
-            int i = dirent_arr_size - 1;
-            dir_entry_arr[dirent_arr_size] = dir_entry;
-            dirent_arr_size++;
-            while (i >= 0 && strcmp(dir_entry->d_name, dir_entry_arr[i]->d_name) < 0) {
-                swap(&dir_entry_arr[i + 1], &dir_entry_arr[i]);
-                --i;
-            }
+    if (directory == NULL) {
+        if(argc != 2){
+            fprintf(stderr, "Error: Error al abrir el directorio especificado\n");
+            return EXIT_FAILURE;
         }
-        struct stat fileStat;
-        for (int i = 0; i < dirent_arr_size; i++) {
-
-            if(stat(dir_entry_arr[i]->d_name, &fileStat) < 0) {
-                printf("Error: Error al obtener la informacion de \"%s\"\n", dir_entry_arr[i]->d_name);
-                //continue;
-                //return EXIT_FAILURE;
-            }   
-    
-            printf((S_ISDIR(fileStat.st_mode)) ? "d" : "-");
-            printf((fileStat.st_mode & S_IRUSR) ? "r" : "-");
-            printf((fileStat.st_mode & S_IWUSR) ? "w" : "-");
-            printf((fileStat.st_mode & S_IXUSR) ? "x" : "-");
-            printf((fileStat.st_mode & S_IRGRP) ? "r" : "-");
-            printf((fileStat.st_mode & S_IWGRP) ? "w" : "-");
-            printf((fileStat.st_mode & S_IXGRP) ? "x" : "-");
-            printf((fileStat.st_mode & S_IROTH) ? "r" : "-");
-            printf((fileStat.st_mode & S_IWOTH) ? "w" : "-");
-            printf((fileStat.st_mode & S_IXOTH) ? "x" : "-");
-            printf(" %ld", fileStat.st_nlink); 
-            printf(" %s", getpwuid(fileStat.st_uid)->pw_name);
-            printf(" %s", getgrgid(fileStat.st_gid)->gr_name);
-            printf(" %ld\t", fileStat.st_size); // no se como hacer para que no este todo chanfleado si no es con el tab
-            char date[12];
-            strftime(date, 13, "%b %d %H:%M", localtime(&(fileStat.st_ctim)));
-            printf(" %s", date);
-            printf(" %s\n", dir_entry_arr[i]->d_name);
+        // Filtrando en el directorio corriente
+        filter_exists = true;
+        filter = argv[1];
+        search_dir = ".";
+        directory = opendir(search_dir);
+    }
+    struct dirent *dir_entry;
+    while ((dir_entry = readdir(directory)) != NULL) {
+        if((dir_entry->d_name[0] == '.') || (filter_exists && strstr(dir_entry->d_name, filter) == NULL)){
+            continue; // si arranca con punto lo ignoro como en el 'ls -l'
         }
-
-        if (closedir(directory) == 0)
-            return EXIT_SUCCESS;
-
-        return EXIT_FAILURE;
+        int i = dirent_arr_size - 1;
+        dir_entry_arr[dirent_arr_size] = dir_entry;
+        dirent_arr_size++;
+        while (i >= 0 && strcmp(dir_entry->d_name, dir_entry_arr[i]->d_name) < 0) {
+            swap(&dir_entry_arr[i + 1], &dir_entry_arr[i]);
+            --i;
+        }
     }
-    else if (argc == 2) {
-        /* code */
+    struct stat fileStat;
+    for (int i = 0; i < dirent_arr_size; i++) {
+        strcpy(dir_entry_path, search_dir);
+        strcat(dir_entry_path,"/");
+        strcat(dir_entry_path, dir_entry_arr[i]->d_name);
+        if(stat(dir_entry_path, &fileStat) < 0) { // No se logra acceder a alguno de los archivos. No se muestra
+            printf("Error: Error al obtener la informacion de \"%s\"\n", dir_entry_arr[i]->d_name);
+            continue;
+        }   
+
+        printf((S_ISDIR(fileStat.st_mode)) ? "d" : "-");
+        printf((fileStat.st_mode & S_IRUSR) ? "r" : "-");
+        printf((fileStat.st_mode & S_IWUSR) ? "w" : "-");
+        printf((fileStat.st_mode & S_IXUSR) ? "x" : "-");
+        printf((fileStat.st_mode & S_IRGRP) ? "r" : "-");
+        printf((fileStat.st_mode & S_IWGRP) ? "w" : "-");
+        printf((fileStat.st_mode & S_IXGRP) ? "x" : "-");
+        printf((fileStat.st_mode & S_IROTH) ? "r" : "-");
+        printf((fileStat.st_mode & S_IWOTH) ? "w" : "-");
+        printf((fileStat.st_mode & S_IXOTH) ? "x" : "-");
+        printf(" %ld", fileStat.st_nlink); 
+        printf(" %s", getpwuid(fileStat.st_uid)->pw_name);
+        printf(" %s", getgrgid(fileStat.st_gid)->gr_name);
+        printf(" %ld\t", fileStat.st_size); // no se como hacer para que no este todo chanfleado si no es con el tab
+        char date[12];
+        strftime(date, 13, "%b %d %H:%M", localtime(&(fileStat.st_ctim.tv_sec)));
+        printf(" %s", date);
+        printf(" %s\n", dir_entry_arr[i]->d_name);
     }
-    
-    fprintf(stderr, (argc == 1) ? "Error: Error al abrir el directorio corriente\n" : "Error: Error al abrir el directorio especificado\n");
-    return EXIT_FAILURE;        
+
+    if (closedir(directory) == 0)
+        return EXIT_SUCCESS;
+
+    return EXIT_FAILURE;
 }
-/*
-stat 
-dirent
-opendir
-readdir
-S_ISREG  
-DIR
-*/
-//stat(argv[1], &fileStat)
-//printf("%s\n", dir_entry->d_name);
