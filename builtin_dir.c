@@ -95,7 +95,7 @@ builtin_dir(int argc, char **argv) {
         printf(" %ld", fileStat.st_nlink); 
         printf(" %s", getpwuid(fileStat.st_uid)->pw_name);
         printf(" %s", getgrgid(fileStat.st_gid)->gr_name);
-        printf(" %ld\t", fileStat.st_size); // no se como hacer para que no este todo chanfleado si no es con el tab
+        printf(" %ld\t", fileStat.st_size); 
         char date[12];
         strftime(date, 13, "%b %d %H:%M", localtime(&(fileStat.st_ctim.tv_sec)));
         printf(" %s", date);
