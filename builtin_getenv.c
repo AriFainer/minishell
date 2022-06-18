@@ -4,8 +4,7 @@
 #include "minish.h"
 
 int
-builtin_getenv(int argc, char **argv)
-{
+builtin_getenv(int argc, char **argv) {
     char *env;
     for (int i = 1; i < argc; i++){
         if ((env = getenv(argv[i])) != NULL)

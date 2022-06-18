@@ -37,11 +37,13 @@ builtin_dir(int argc, char **argv) {
     int dirent_arr_size = 0;
     char *search_dir;
     char dir_entry_path[MAXCWD];
-    if (argc == 1){
+    if (argc == 1) {
         search_dir = ".";
-    } else if (argc == 2){
+    }
+    else if (argc == 2) {
         search_dir = argv[1];
-    }else{ // (argc == 3)
+    }
+    else {  // (argc == 3)
         filter_exists = true;
         search_dir = argv[1];
         filter = argv[2];
@@ -59,6 +61,7 @@ builtin_dir(int argc, char **argv) {
         search_dir = ".";
         directory = opendir(search_dir);
     }
+
     struct dirent *dir_entry;
     while ((dir_entry = readdir(directory)) != NULL) {
         if((dir_entry->d_name[0] == '.') || (filter_exists && strstr(dir_entry->d_name, filter) == NULL)){
@@ -72,6 +75,7 @@ builtin_dir(int argc, char **argv) {
             --i;
         }
     }
+    
     struct stat fileStat;
     for (int i = 0; i < dirent_arr_size; i++) {
         strcpy(dir_entry_path, search_dir);
@@ -95,7 +99,7 @@ builtin_dir(int argc, char **argv) {
         printf(" %ld", fileStat.st_nlink); 
         printf(" %s", getpwuid(fileStat.st_uid)->pw_name);
         printf(" %s", getgrgid(fileStat.st_gid)->gr_name);
-        printf(" %ld\t", fileStat.st_size); // no se como hacer para que no este todo chanfleado si no es con el tab
+        printf(" %ld\t", fileStat.st_size); 
         char date[12];
         strftime(date, 13, "%b %d %H:%M", localtime(&(fileStat.st_ctim.tv_sec)));
         printf(" %s", date);
