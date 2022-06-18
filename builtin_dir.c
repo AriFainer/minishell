@@ -10,6 +10,7 @@
 #include <time.h>
 
 #include "minish.h"
+#include "wrappers.h"
 
 void
 swap(struct dirent **dir_entry_1, struct dirent **dir_entry_2) {
@@ -32,8 +33,9 @@ builtin_dir(int argc, char **argv) {
     int dirent_arr_size = 0;
     if (argc == 1)
         directory = opendir(".");
-    if (argc == 2 || argc == 3) 
+    if (argc == 2 || argc == 3){
         directory = opendir(argv[1]); //aca hay un error
+    }
 
     if (directory != NULL) {
         struct dirent *dir_entry;
