@@ -17,6 +17,7 @@
 #define RESET "\033[0m"
 
 // habria que poner el "-" en los argumentos? y tambien agregar lo de home
+// hay que usar las funciones de wrappers que creo gerardo en todos lados
 #define HELP_CD      "cd [..|dir]\n\tCambia el directorio corriente de trabajo del minishell.\n"\
                      "\n\tEl directorio se cambia por el argumento dir. Si se ingresa como argumento \"-\" se vuelve al directorio"\
                      " de trabajo antrior. El directorio por defecto (cd sin argumento) es el directorio HOME.\n"\

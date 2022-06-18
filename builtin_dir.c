@@ -75,18 +75,17 @@ builtin_dir(int argc, char **argv) {
             strftime(date, 13, "%b %d %H:%M", localtime(&(fileStat.st_ctim)));
             printf(" %s", date);
             printf(" %s\n", dir_entry_arr[i]->d_name);
-
         }
 
         if (closedir(directory) == 0)
             return EXIT_SUCCESS;
 
         return EXIT_FAILURE;
-        }
-        else {
-
-        }
-
+    }
+    else if (argc == 2) {
+        /* code */
+    }
+    
     fprintf(stderr, (argc == 1) ? "Error: Error al abrir el directorio corriente\n" : "Error: Error al abrir el directorio especificado\n");
     return EXIT_FAILURE;        
 }
