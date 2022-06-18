@@ -30,15 +30,15 @@
                      "\tDe recibir un parametro, provee ayuda detallada sobre el comando especificado.\n\n"\
                      "\tArgumentos:\n\tCOMANDO  Comando especificando el topico de ayuda\n\n\tExit Status:\n"\
                      "\tDevuelve un status exitoso, a menos que no se encuentre el comando o se ingrese una opcion invalida."
-#define HELP_HISTORY "history [N] - muestra los últimos N (10) comandos escritos"
-#define HELP_GETENV  "getenv var [var] - muestra valor de variable(s) de ambiente"
-#define HELP_PID     "pid - muestra Process Id del minish"
-#define HELP_SETENV  "setenv var valor - agrega o cambia valor de variable de ambiente"
-#define HELP_STATUS  "status - muestra status de retorno de ultimo comando ejecutado"
-#define HELP_UID     "uid - muestra nombre y número de usuario dueño del minish"
-#define HELP_GID     "ARRGELAR"
-#define HELP_UNSETENV "ARRGELAR"
-#define HELP_MES "ARREGLAR"
+#define HELP_HISTORY "history [N] - muestra los últimos N (10) comandos escritos."
+#define HELP_GETENV  "getenv [var ...] - muestra valor de variable(s) de ambiente."
+#define HELP_PID     "pid - muestra Process Id del minish."
+#define HELP_SETENV  "setenv var val - agrega o cambia valor de variable de ambiente."
+#define HELP_STATUS  "status - muestra status de retorno de ultimo comando ejecutado."
+#define HELP_UID     "uid - muestra nombre y número de usuario dueño del minish."
+#define HELP_GID     "gid - muestra el grupo principal del usuario y sus grupos secundarios en caso de tenerlos."
+#define HELP_UNSETENV "unsetenv [var ...] - elimina las variables de ambiente que se le indican."
+#define HELP_MES      "mes [mm [YYYY]] - muestra el calendario correspondiente al mes y año indicados.\nDe no recibir argumentos, muestra el calendario correspondiente a la fecha actual."
 
 struct builtin_struct builtin_arr[] = {
         { "cd", builtin_cd, HELP_CD },
@@ -61,16 +61,16 @@ char syntax_array[][MAXLINE] = {
         "cd [..|dir]",
         "dir [texto/directorio]",
         "exit[status]",
-        "getenv variable [variable ...]",
+        "getenv var [var ...]",
         "gid",
         "help [comando]",
         "history [N]",
         "pid",
-        "setenv variable valor",
+        "setenv var val",
         "status",
         "uid",
         "unsetenv [var ...]",
-        "mes [[mes] año]"
+        "mes [mes [año]]",
         "\0" 
 };
 
@@ -99,7 +99,7 @@ sigint_handler(int signum) {
 }
 
 int 
-main(__attribute__((unused)) int argc, char* argv[]) { // al profe dijo que no le gustaba el unused, que usaramos el argc para algo 
+main(int argc, char* argv[]) { // al profe dijo que no le gustaba el unused, que usaramos el argc para algo 
     
     char line[MAXLINE];
     progname = argv[0];
@@ -131,7 +131,6 @@ main(__attribute__((unused)) int argc, char* argv[]) { // al profe dijo que no l
         if ((cant_palabras = linea2argv(line, MAXWORDS, arr_arg)) > 0) {
             strcpy(buffer[buffer_idx],line);
             buffer_idx = (buffer_idx + 1) % MAXHIST;
-            fprintf(stderr, "Will execute command %s\n", arr_arg[0]); // capaz se le puede agregar los argumentos con un for hasta encontrar un NULL
             globalstatret = ejecutar(cant_palabras, arr_arg);
         }
     }
