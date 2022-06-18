@@ -73,7 +73,6 @@ builtin_dir(int argc, char **argv) {
             strftime(date, 13, "%b %d %H:%M", localtime(&(fileStat.st_ctim)));
             printf(" %s", date);
             printf(" %s\n", dir_entry_arr[i]->d_name);
-
         }
 
         if (closedir(directory) == 0)
