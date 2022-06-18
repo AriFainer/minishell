@@ -11,11 +11,10 @@
 
 
 extern int 
-externo(__attribute__((unused)) int argc, char **argv) {
+externo(int argc, char **argv) {
     pid_t pid;       // process ID: an unsigned integer type
     int wait_status; // wait status will be filled by waitpid syscall
 
-    fprintf(stderr, "Will fork %s command\n", argv[0]);
 
     sigaction(SIGINT, NULL, &oldact); // the  previous action for SIGINT is saved in oldact
     newact = oldact;
@@ -36,8 +35,7 @@ externo(__attribute__((unused)) int argc, char **argv) {
         sigaction(SIGINT, &newact, NULL); // ignore SIGINT while waiting
         waitpid(pid, &wait_status, 0);
         sigaction(SIGINT, &oldact, NULL); // restore SIGINT when child finishes
-        fprintf(stderr, "Ended child process\n");
-        // do something with wait_status
+        // Uso el wait status para conseguir el valor de retorno del proceso hijo
         int return_value= WIFEXITED(wait_status) ? WEXITSTATUS(wait_status) : EXIT_FAILURE;
         return return_value;
     }
