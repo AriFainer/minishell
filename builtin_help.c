@@ -21,10 +21,10 @@ builtin_help(int argc, char **argv) {
         return EXIT_SUCCESS;
     }
     struct builtin_struct *command_struct = builtin_lookup(argv[1]);
-    if (command_struct->cmd != NULL) {
+    if (command_struct != NULL) {
         printf("%s\n", command_struct->help_txt);
         return EXIT_SUCCESS;
     }
-    fprintf(stderr, "ERROR: No existe el comando interno %s\n", argv[1]); //esta bien o que hay que hacer aca?
+    fprintf(stderr, "Error: No existe el comando interno %s\n", argv[1]); //esta bien o que hay que hacer aca?
     return EXIT_FAILURE;
 }
