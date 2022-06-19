@@ -29,7 +29,6 @@ save_history (){ //HAY QUE COMENTAR POR ACA
     }
     if (fclose(history) != 0) {
         fprintf (stderr, "Error: Error al guardar el historial de comandos\n");
-        return EXIT_FAILURE;
     }
 }
 
