@@ -27,9 +27,9 @@ fopen_or_exit(const char *pathname, const char *mode)
     return fp;
 }
 
+// wrapper para fread
 size_t
 fread_or_exit(void *ptr, size_t size, size_t nmemb, FILE *stream)
-// wrapper para fread
 {
     size_t n_read;
 
@@ -80,7 +80,6 @@ malloc_or_exit(size_t size)
 }
 
 // wrapper para strdup - se implementa "a mano" porque no es parte del standard actual C99
-
 char *
 strdup_or_exit(const char *s)
 {

@@ -7,7 +7,6 @@
 
 #include "minish.h"
 
-
 void
 set_to_end_of_month(struct tm *fecha){
     for (int mes_actual=fecha->tm_mon;fecha->tm_mon==mes_actual;fecha->tm_mday++,mktime(fecha));
@@ -39,10 +38,8 @@ print_month(struct tm *end_of_month, int wday){
     fputc('\n',stdout);
 }
 
-
 int 
 builtin_mes(int argc, char **argv) {
-
 
     time_t tiempo;
     time(&tiempo);
@@ -59,37 +56,28 @@ builtin_mes(int argc, char **argv) {
         return EXIT_FAILURE;
     }
 
-    if(argc >= 2){ // Me pasan mes
-        
-        for (int i = 0; argv[1][i] != '\0'; i++)
-                {
-                    if (!isdigit (argv[1][i]))
-                        {
-                            fprintf (stderr, "Error: Sintaxis incorrecta del "
-                                             "comando \"mes\"; mm DEBE ser "
-                                             "un entero positivo\n");
-                            char *help_argv[] = { "help", "mes" };
-                            builtin_help (2, help_argv);
-                            return EXIT_FAILURE;
-                        }
-                }
-            int mm = atoi (argv[1]) - 1;
-            fecha ->tm_mon = mm;
-        
-        if(argc == 3){ // Me pasan mes y año
+    if (argc >= 2) { // Me pasan mes
+        for (int i = 0; argv[1][i] != '\0'; i++) {
+            if (!isdigit (argv[1][i])) {
+                fprintf (stderr, "Error: Sintaxis incorrecta del comando \"mes\"; mm DEBE ser un entero positivo\n");
+                char *help_argv[] = { "help", "mes" };
+                builtin_help (2, help_argv);
+                return EXIT_FAILURE;
+            }
+        }
 
-           for (int i = 0; argv[2][i] != '\0'; i++)
-                {
-                    if (!isdigit (argv[2][i]))
-                        {
-                            fprintf (stderr, "Error: Sintaxis incorrecta del "
-                                             "comando \"mes\"; YYYY DEBE ser "
-                                             "un entero positivo\n");
-                            char *help_argv[] = { "help", "mes" };
-                            builtin_help (2, help_argv);
-                            return EXIT_FAILURE;
-                        }
+        int mm = atoi (argv[1]) - 1;
+        fecha ->tm_mon = mm;
+        
+        if(argc == 3) { // Me pasan mes y año
+           for (int i = 0; argv[2][i] != '\0'; i++) {
+                if (!isdigit (argv[2][i])) {
+                        fprintf (stderr, "Error: Sintaxis incorrecta del comando \"mes\"; YYYY DEBE ser un entero positivo\n");
+                        char *help_argv[] = { "help", "mes" };
+                        builtin_help (2, help_argv);
+                        return EXIT_FAILURE;
                 }
+            }
             int YYYY = atoi (argv[2]) - 1900;
             fecha ->tm_year = YYYY;
         }

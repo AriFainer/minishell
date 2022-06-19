@@ -20,7 +20,6 @@ swap(struct dirent **dir_entry_1, struct dirent **dir_entry_2) {
     *dir_entry_2 = temp;
 }
 
-
 int 
 builtin_dir(int argc, char **argv) {
     if (argc > 3) {
@@ -37,6 +36,7 @@ builtin_dir(int argc, char **argv) {
     int dirent_arr_size = 0;
     char *search_dir;
     char dir_entry_path[MAXCWD];
+    
     if (argc == 1) {
         search_dir = ".";
     }

@@ -17,7 +17,6 @@
 #define RESET "\033[0m"
 
 // habria que poner el "-" en los argumentos? y tambien agregar lo de home
-// hay que usar las funciones de wrappers que creo gerardo en todos lados
 #define HELP_CD      "cd [..|dir]\n\tCambia el directorio corriente de trabajo del minishell.\n"\
                      "\n\tEl directorio se cambia por el argumento dir. Si se ingresa como argumento \"-\" se vuelve al directorio"\
                      " de trabajo antrior. El directorio por defecto (cd sin argumento) es el directorio HOME.\n"\
@@ -88,8 +87,7 @@ char *history_map;
 int history_size=0;
 
 void
-prompt(char *ps) {
-    // ps is the prompt string
+prompt(char *ps) { // ps is the prompt string
     char *name = getpwuid(getuid())->pw_name;
     fprintf(stderr, "(%s)" GREEN " %s:%s "  RESET ">", ps, name , directory);
 }
@@ -100,7 +98,7 @@ sigint_handler(int signum) {
 }
 
 int 
-main(int argc, char* argv[]) { // al profe dijo que no le gustaba el unused, que usaramos el argc para algo 
+main(int argc, char* argv[]) { 
     
     char line[MAXLINE];
     progname = argv[0];

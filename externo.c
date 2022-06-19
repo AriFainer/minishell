@@ -15,7 +15,6 @@ externo(int argc, char **argv) {
     pid_t pid;       // process ID: an unsigned integer type
     int wait_status; // wait status will be filled by waitpid syscall
 
-
     sigaction(SIGINT, NULL, &oldact); // the  previous action for SIGINT is saved in oldact
     newact = oldact;
 
