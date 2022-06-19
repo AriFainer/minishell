@@ -10,12 +10,21 @@
 #include "minish.h"
 #include "wrappers.h"
 
+//imprime desde el indice buffer_print_start una cantidad de buffer_print_qty elementos
+//del buffer al stream indicado
+void
+print_buffer(int buffer_print_start, int buffer_print_qty, FILE *stream){
+    int lcount = 0;         // Contador de cuantas lineas voy imprimiendo
+    for (int i = buffer_print_start; lcount < buffer_print_qty;i = (i + 1) % MAXHIST, lcount++){
+            fprintf (stream, "%s", buffer[i]);
+    }
+}
+
 void
 save_history (){ //HAY QUE COMENTAR POR ACA
     // si en el paso siguiente no sobreescribo ninguna palabra todavía no llene el buffer
     int buffer_start;
     int buffer_used_qty;
-    int lcount = 0;
     if (buffer[buffer_idx][0] == '\0') { // buffer no lleno
             buffer_start = 0;
             buffer_used_qty = buffer_idx;
@@ -24,9 +33,7 @@ save_history (){ //HAY QUE COMENTAR POR ACA
             buffer_start = buffer_idx;
             buffer_used_qty = MAXHIST;
     }
-    for (int i = buffer_start; lcount < buffer_used_qty; i = (i + 1) % MAXHIST, lcount++) {
-            fprintf (history, "%s", buffer[i]);
-    }
+    print_buffer(buffer_start,buffer_used_qty,history);
     if (fclose(history) != 0) {
         fprintf (stderr, "Error: Error al guardar el historial de comandos\n");
     }
@@ -72,7 +79,6 @@ builtin_history (int argc, char **argv) {
 
     int buffer_print_start;
     int buffer_print_qty;
-    int lcount = 0;         // Contador de cuantas lineas voy imprimiendo
     if (buffer[buffer_idx][0] == '\0'){ // buffer no lleno
         buffer_print_qty = (N < buffer_idx) ? N : buffer_idx; // min(N,buffer_idx)
         buffer_print_start = buffer_idx - buffer_print_qty;
@@ -96,10 +102,7 @@ builtin_history (int argc, char **argv) {
         fprintf (stdout, "%.*s", history_size - (i + 1), &history_map[i + 1]);
     }
     // lee el buffer
-    for (int i = buffer_print_start; lcount < buffer_print_qty;
-         i = (i + 1) % MAXHIST, lcount++){
-            fprintf (stdout, "%s", buffer[i]);
-    }
+    print_buffer(buffer_print_start,buffer_print_qty,stdout);
 
     return EXIT_SUCCESS;
 }
