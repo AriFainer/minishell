@@ -15,7 +15,7 @@
 #include <errno.h>
 #include <string.h>
 
-// wrapper para fopen
+// wrappers para fopen
 FILE *
 fopen_or_exit(const char *pathname, const char *mode)
 {
@@ -23,6 +23,17 @@ fopen_or_exit(const char *pathname, const char *mode)
 
     if ( (fp = fopen(pathname, mode)) == NULL ) {
         error(EXIT_FAILURE, errno, "fopen error file '%s', mode '%s' - exit\n", pathname, mode);
+    }
+    return fp;
+}
+// Si no tengo permiso, por ejemplo, no es de esperarse que se termine el programa. Simplemente se imprime un mensaje de error. 
+FILE *
+fopen_or_warn(const char *pathname, const char *mode)
+{
+    FILE *fp;
+
+    if ( (fp = fopen(pathname, mode)) == NULL ) {
+        fprintf(stderr, "Error. No se pudo abrir el archivo %s.\n", pathname);
     }
     return fp;
 }

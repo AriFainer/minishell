@@ -25,6 +25,10 @@ save_history (){ //HAY QUE COMENTAR POR ACA
     // si en el paso siguiente no sobreescribo ninguna palabra todavía no llene el buffer
     int buffer_start;
     int buffer_used_qty;
+    if(history == NULL){
+        fprintf(stderr, "Error. No se pudo guardar el historial  de comandos.\n");
+        return;
+    }
     if (buffer[buffer_idx][0] == '\0') { // buffer no lleno
             buffer_start = 0;
             buffer_used_qty = buffer_idx;
@@ -44,7 +48,10 @@ load_history (char *home_path) {
     char history_path[MAXCWD];
     strcpy (history_path, home_path);
     strcat (history_path, HISTORY_FILE);
-    history = fopen_or_exit(history_path, "a+");    // Modo append y read
+    history = fopen_or_warn(history_path, "a+");    // Modo append y read
+    if(history == NULL){
+        return;
+    }
     int fd = fileno (history);                      // File descriptor del history file
     struct stat s;      // Para conseguir el tamano del archivo
     fstat (fd, &s);     // Carga atributos del archivo en s
