@@ -81,7 +81,8 @@ char directory[MAXCWD];
 char prevdirectory[MAXCWD];
 char buffer[MAXHIST][MAXLINE]={'\0'};
 int buffer_idx;
-char meses[][10]={"ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SETIEMBE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"};
+char meses[][10]={"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", 
+                    "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre"};
 FILE *history = NULL;
 char *history_map;
 int history_size=0;
@@ -89,7 +90,7 @@ int history_size=0;
 void
 prompt(char *ps) { // ps is the prompt string
     char *name = getpwuid(getuid())->pw_name;
-    fprintf(stderr, "(%s)" GREEN " %s:%s "  RESET ">", ps, name , directory);
+    fprintf(stderr, "(%s)" GREEN " %s:%s "  RESET "> ", ps, name , directory);
 }
 
 void
@@ -99,7 +100,6 @@ sigint_handler(int signum) {
 
 int 
 main(int argc, char* argv[]) { 
-    
     char line[MAXLINE];
     progname = argv[0];
     

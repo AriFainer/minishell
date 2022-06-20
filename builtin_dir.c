@@ -43,7 +43,7 @@ builtin_dir(int argc, char **argv) {
     else if (argc == 2) {
         search_dir = argv[1];
     }
-    else {  // (argc == 3)
+    else {  
         filter_exists = true;
         search_dir = argv[1];
         filter = argv[2];
@@ -64,7 +64,7 @@ builtin_dir(int argc, char **argv) {
 
     struct dirent *dir_entry;
     while ((dir_entry = readdir(directory)) != NULL) {
-        if((dir_entry->d_name[0] == '.') || (filter_exists && strstr(dir_entry->d_name, filter) == NULL)){
+        if((!filter_exists && dir_entry->d_name[0] == '.') || (filter_exists && strstr(dir_entry->d_name, filter) == NULL)){
             continue; // si arranca con punto lo ignoro como en el 'ls -l'
         }
         int i = dirent_arr_size - 1;

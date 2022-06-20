@@ -6,6 +6,7 @@
 #include <sys/io.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
+#include <sys/types.h>
 
 #include "minish.h"
 #include "wrappers.h"
@@ -48,6 +49,7 @@ load_history (char *home_path) {
     char history_path[MAXCWD];
     strcpy (history_path, home_path);
     strcat (history_path, HISTORY_FILE);
+    umask(TAKEN_PERMITS);
     history = fopen_or_warn(history_path, "a+");    // Modo append y read
     if(history == NULL){
         return;

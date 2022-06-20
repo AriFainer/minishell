@@ -1,8 +1,9 @@
-#define MAXLINE 1024        // tamaño máximo de la línea de entrada
-#define MAXCWD 1024         // tamaño máximo para alojar el pathname completo del directorio corriente
-#define MAXWORDS 256        // cantidad máxima de palabras en la línea
-#define MAXHIST 1000 //Permitimos gardar hasta 1000 comandos de la ejecucion actual
+#define MAXLINE 1024                // tamaño máximo de la línea de entrada
+#define MAXCWD 1024                 // tamaño máximo para alojar el pathname completo del directorio corriente
+#define MAXWORDS 256                // cantidad máxima de palabras en la línea
+#define MAXHIST 1000                //Permitimos gardar hasta 1000 comandos de la ejecucion actual
 #define HISTORY_FILE	"/.minish_history"   // nombre del archivo que almacena historia de comandos
+#define TAKEN_PERMITS 0077          //cuando creo un archivo no le doy permisos ni al grupo ni a otros usuarios
 
 #include <stdio.h>
 

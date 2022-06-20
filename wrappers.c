@@ -26,12 +26,12 @@ fopen_or_exit(const char *pathname, const char *mode)
     }
     return fp;
 }
+
 // Si no tengo permiso, por ejemplo, no es de esperarse que se termine el programa. Simplemente se imprime un mensaje de error. 
 FILE *
 fopen_or_warn(const char *pathname, const char *mode)
 {
     FILE *fp;
-
     if ( (fp = fopen(pathname, mode)) == NULL ) {
         fprintf(stderr, "Error. No se pudo abrir el archivo %s.\n", pathname);
     }

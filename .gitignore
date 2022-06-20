@@ -25,3 +25,4 @@ wrappers.o
 builtin_history.o
 builtin_mes.o
 builtin_dir.o
+.vscode/tasks.json
