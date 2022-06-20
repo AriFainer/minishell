@@ -24,6 +24,7 @@ int linea2argv(char *linea, int argc, char **argv) {
     bool entre_comillas = false;
     int tipo_comilla = 0;
     char comillas[] = COMILLAS;
+
     while (strchr("\n\0", *lectura) == NULL) {
         if (entre_comillas) {
             if (comillas[tipo_comilla] == *lectura) {
@@ -36,12 +37,14 @@ int linea2argv(char *linea, int argc, char **argv) {
             i++;
             continue;
         }
+
         if (strchr(comillas, *lectura) != NULL) {
             entre_comillas = true;
             tipo_comilla = (*lectura == comillas[0]) ? 0 : 1;
             lectura++;
             continue;
         }
+        
         if (isspace(*lectura)) {
             if (i > 0) {
                 word[i] = '\0';
@@ -56,6 +59,7 @@ int linea2argv(char *linea, int argc, char **argv) {
         lectura++;
         i++;
     }
+
     if (i > 0) {
         word[i] = '\0';
         argv[j++] = strdup_or_exit(word);

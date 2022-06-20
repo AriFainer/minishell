@@ -6,13 +6,14 @@
 #include "minish.h"
 
 int 
-builtin_exit(int argc, char ** argv) { //arreglar
+builtin_exit(int argc, char ** argv) { 
     if (argc > 2) {
         fprintf(stderr, "Error: Sintaxis incorrecta del comando \"exit\"\n");
         char *help_argv[] = {"help", "exit"};
         builtin_help(2, help_argv);
         return EXIT_FAILURE;
     }
+
     char *retorno = argv[1];
     fputc('\n', stderr);
     bool numeric_arg = true;
@@ -27,6 +28,7 @@ builtin_exit(int argc, char ** argv) { //arreglar
         else {
             numeric_arg = false;
         }
+
         if (!numeric_arg) {
             fprintf(stderr, "Error: Argumento no numerico ingresado en el comando \"exit\"\n");
             globalstatret = EXIT_FAILURE;
@@ -34,7 +36,6 @@ builtin_exit(int argc, char ** argv) { //arreglar
         else {
             globalstatret = atoi(retorno);
         }
-        
     }
     fprintf(stderr, "Exiting %s ...\n", progname);
     clean_argv(argv);

@@ -32,7 +32,7 @@ builtin_dir(int argc, char **argv) {
     bool filter_exists = false;
     char *filter;
     DIR *directory;
-    struct dirent *dir_entry_arr[1024];
+    struct dirent *dir_entry_arr[1024]; //aca todavia cte magica
     int dirent_arr_size = 0;
     char *search_dir;
     char dir_entry_path[MAXCWD];
@@ -48,8 +48,8 @@ builtin_dir(int argc, char **argv) {
         search_dir = argv[1];
         filter = argv[2];
     }
-    directory = opendir(search_dir);
 
+    directory = opendir(search_dir);
     if (directory == NULL) {
         if(argc != 2){
             fprintf(stderr, "Error: Error al abrir el directorio especificado\n");
@@ -65,7 +65,7 @@ builtin_dir(int argc, char **argv) {
     struct dirent *dir_entry;
     while ((dir_entry = readdir(directory)) != NULL) {
         if((!filter_exists && dir_entry->d_name[0] == '.') || (filter_exists && strstr(dir_entry->d_name, filter) == NULL)){
-            continue; // si arranca con punto lo ignoro como en el 'ls -l'
+            continue; // si arranca con "." lo ignoro como en el 'ls -l'
         }
         int i = dirent_arr_size - 1;
         dir_entry_arr[dirent_arr_size] = dir_entry;
@@ -81,7 +81,7 @@ builtin_dir(int argc, char **argv) {
         strcpy(dir_entry_path, search_dir);
         strcat(dir_entry_path,"/");
         strcat(dir_entry_path, dir_entry_arr[i]->d_name);
-        if(stat(dir_entry_path, &fileStat) < 0) { // No se logra acceder a alguno de los archivos. No se muestra
+        if(stat(dir_entry_path, &fileStat) < 0) { // No se logra acceder a alguno de los archivos, no se muestra
             printf("Error: Error al obtener la informacion de \"%s\"\n", dir_entry_arr[i]->d_name);
             continue;
         }   

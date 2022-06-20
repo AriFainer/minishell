@@ -12,7 +12,7 @@ builtin_getenv(int argc, char **argv) {
         return EXIT_FAILURE;
     }
     char *env;
-    for (int i = 1; i < argc; i++){
+    for (int i = 1; i < argc; i++) {
         if ((env = getenv(argv[i])) != NULL)
             fprintf(stdout, "%s: %s\n", argv[i], env);
         else

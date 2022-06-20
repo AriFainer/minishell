@@ -15,5 +15,5 @@ builtin_pid(int argc, char ** argv) {
     }
     pid_t p_id = getpid();
     fprintf(stdout, "pid: %d \n", p_id);
-    return EXIT_SUCCESS; // Nunca tira error.
+    return EXIT_SUCCESS; // getpid always successful
 }

@@ -9,7 +9,6 @@
 #include <signal.h>
 #include <pwd.h>
 
-
 #include "minish.h"
 #include "wrappers.h"
 
@@ -79,13 +78,15 @@ char *progname;
 struct sigaction oldact, newact;
 char directory[MAXCWD];
 char prevdirectory[MAXCWD];
-char buffer[MAXHIST][MAXLINE]={'\0'};
+char buffer[MAXHIST][MAXLINE] = {'\0'};
 int buffer_idx;
-char meses[][10]={"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", 
-                    "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre"};
+char meses[][10] = {
+                "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", 
+                "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre"
+};
 FILE *history = NULL;
 char *history_map;
-int history_size=0;
+int history_size = 0;
 
 void
 prompt(char *ps) { // ps is the prompt string

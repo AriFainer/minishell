@@ -9,7 +9,6 @@
 
 #include "minish.h"
 
-
 extern int 
 externo(int argc, char **argv) {
     pid_t pid;       // process ID: an unsigned integer type
@@ -29,13 +28,13 @@ externo(int argc, char **argv) {
         error(EXIT_FAILURE, errno, "execvp error\n"); // if exec not successful, just exit child
         exit(EXIT_SUCCESS);
     }
-    else { // pid > 0: parent (shell) process
+    else { // parent (shell) process
         newact.sa_handler = SIG_IGN;
         sigaction(SIGINT, &newact, NULL); // ignore SIGINT while waiting
         waitpid(pid, &wait_status, 0);
         sigaction(SIGINT, &oldact, NULL); // restore SIGINT when child finishes
         // Uso el wait status para conseguir el valor de retorno del proceso hijo
-        int return_value= WIFEXITED(wait_status) ? WEXITSTATUS(wait_status) : EXIT_FAILURE;
+        int return_value = WIFEXITED(wait_status) ? WEXITSTATUS(wait_status) : EXIT_FAILURE;
         return return_value;
     }
 }

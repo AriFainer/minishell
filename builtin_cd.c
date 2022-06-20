@@ -14,7 +14,7 @@ builtin_cd(int argc, char **argv) {
         return EXIT_FAILURE; 
     }
     if (argc == 1) {
-        if(chdir(getenv("HOME"))!=0){
+        if(chdir(getenv("HOME")) != 0){
             fprintf(stderr, "Error: La variable de entorno HOME no contiene un directorio existente\n");
             return EXIT_FAILURE;
         }
@@ -23,7 +23,7 @@ builtin_cd(int argc, char **argv) {
         return EXIT_SUCCESS;
     }
     if (strcmp(argv[1], "-") == 0) {
-        if(chdir(prevdirectory)!=0){
+        if(chdir(prevdirectory) != 0){
             fprintf(stderr, "Error: Ya no existe el directorio anterior\n");
             return EXIT_FAILURE;
         }

@@ -18,14 +18,12 @@ struct builtin_struct {         // struct con información de los builtins
 // Variables que deben definirse en el main como externas
 
 extern char directory[];
-
 extern char prevdirectory[];
 
 extern struct sigaction oldact, newact;
 
-extern int globalstatret;	// guarda status del ultimo comando
-
-extern char *progname; // Guardo en una variable global el nombre del programa 
+extern int globalstatret;   // guarda status del ultimo comando
+extern char *progname;      // guardo en una variable global el nombre del programa 
 
 extern struct builtin_struct builtin_arr[];
 
@@ -36,7 +34,6 @@ extern char meses[][10];
 extern FILE *history;
 extern char *history_map;
 extern int history_size;
-
 
 /*
     builtin_arr es una lista de los builtins, que se recorrerá en forma lineal.

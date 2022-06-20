@@ -20,19 +20,18 @@ FILE *
 fopen_or_exit(const char *pathname, const char *mode)
 {
     FILE *fp;
-
     if ( (fp = fopen(pathname, mode)) == NULL ) {
         error(EXIT_FAILURE, errno, "fopen error file '%s', mode '%s' - exit\n", pathname, mode);
     }
     return fp;
 }
 
-// Si no tengo permiso, por ejemplo, no es de esperarse que se termine el programa. Simplemente se imprime un mensaje de error. 
+// Si no tengo permiso, por ejemplo, no es de esperarse que se termine el programa; se imprime un mensaje de error
 FILE *
 fopen_or_warn(const char *pathname, const char *mode)
 {
     FILE *fp;
-    if ( (fp = fopen(pathname, mode)) == NULL ) {
+    if ((fp = fopen(pathname, mode)) == NULL) {
         fprintf(stderr, "Error. No se pudo abrir el archivo %s.\n", pathname);
     }
     return fp;
@@ -43,9 +42,8 @@ size_t
 fread_or_exit(void *ptr, size_t size, size_t nmemb, FILE *stream)
 {
     size_t n_read;
-
     n_read = fread(ptr, size, nmemb, stream);
-    if (n_read != nmemb ) {
+    if (n_read != nmemb) {
         if (feof(stream)) {
             error(EXIT_FAILURE, 0, "fread EOF - exit\n");
         } else {
@@ -60,7 +58,6 @@ size_t
 fwrite_or_exit(const void *ptr, size_t size, size_t nmemb, FILE *stream)
 {
     size_t n_written;
-
     n_written = fwrite(ptr, size, nmemb, stream);
     if (n_written != nmemb ) {
         error(EXIT_FAILURE, errno, "fwrite error - exit\n");
