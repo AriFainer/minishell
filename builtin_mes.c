@@ -9,8 +9,8 @@
 
 void
 set_to_end_of_month(struct tm *fecha){
-    for (int mes_actual=fecha->tm_mon;fecha->tm_mon==mes_actual;fecha->tm_mday++,mktime(fecha));
-    fecha->tm_mday--;
+    fecha->tm_mon++;
+    fecha->tm_mday=0;
     mktime(fecha);
 }
 
