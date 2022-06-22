@@ -90,8 +90,11 @@ int history_size = 0;
 
 void
 prompt(char *ps) { // ps is the prompt string
-    char *name = getpwuid(getuid())->pw_name;
-    fprintf(stderr, "(%s)" GREEN " %s:%s "  RESET "> ", ps, name , directory);
+    struct passwd *user = getpwuid(getuid());
+    if (user != NULL)
+        fprintf(stderr, "(%s)" GREEN " %s:%s "  RESET "> ", ps, user->pw_name , directory);
+    else
+        fprintf(stderr, "(%s)" GREEN " %d:%s "  RESET "> ", ps, getuid() , directory);
 }
 
 void

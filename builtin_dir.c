@@ -97,8 +97,16 @@ builtin_dir(int argc, char **argv) {
         printf((fileStat.st_mode & S_IWOTH) ? "w" : "-");
         printf((fileStat.st_mode & S_IXOTH) ? "x" : "-");
         printf(" %ld", fileStat.st_nlink); 
-        printf(" %s", getpwuid(fileStat.st_uid)->pw_name);
-        printf(" %s", getgrgid(fileStat.st_gid)->gr_name);
+        struct passwd *user = getpwuid(fileStat.st_uid);
+        if (user != NULL)
+            printf(" %s", user->pw_name);
+        else
+            printf(" %d", fileStat.st_uid);
+        struct group *grupo = getgrgid(fileStat.st_gid);
+        if (grupo!=NULL)     
+            printf(" %s", grupo->gr_name);
+        else
+            printf(" %d", fileStat.st_gid);
         printf(" %ld\t", fileStat.st_size); 
         char date[12];
         strftime(date, 13, "%b %d %H:%M", localtime(&(fileStat.st_ctim.tv_sec)));
